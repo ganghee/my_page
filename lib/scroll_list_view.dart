@@ -1,6 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
+import 'book_vo.dart';
+
+part 'books_view.dart';
+
 class ScrollListView extends StatefulWidget {
   const ScrollListView({super.key});
 
@@ -32,11 +36,6 @@ class _ScrollListViewState extends State<ScrollListView> {
           _horizontalKey.currentContext?.findRenderObject() as RenderBox?;
       _horizontalY = renderBox?.localToGlobal(Offset.zero).dy ?? 0;
       _horizontalHeight = renderBox?.size.height ?? 0;
-      if (_horizontalY > 0 && _horizontalY < 20) {
-        setState(() {
-          _isVerticalScrollable = false;
-        });
-      }
     });
     super.initState();
   }
@@ -46,7 +45,6 @@ class _ScrollListViewState extends State<ScrollListView> {
     return Listener(
       onPointerSignal: (pointerSignal) async {
         if (pointerSignal is PointerScrollEvent) {
-          pointerSignal.scrollDelta.dy; // 속도 값
 
           final currentPosition = _verticalController.offset; // 현재 위치
           // 스크롤 위치가 가로 스크롤 위치에 있을 때
@@ -58,13 +56,15 @@ class _ScrollListViewState extends State<ScrollListView> {
                 _isHorizontalScrollState = ScrollState.scrolling;
               }
               if (_isHorizontalScrollState == ScrollState.scrolling) {
-                _horizontalProgress += pointerSignal.scrollDelta.dy * horizontalScrollSpeed;
+                _horizontalProgress +=
+                    pointerSignal.scrollDelta.dy * horizontalScrollSpeed;
                 await fixScrollPosition();
                 if (_horizontalProgress < 0) {
                   _horizontalProgress = 0;
                 }
 
-                if (_horizontalProgress > _horizontalController.position.maxScrollExtent - 100) {
+                if (_horizontalProgress >
+                    _horizontalController.position.maxScrollExtent - 10) {
                   _isVerticalScrollable = true;
                   _isHorizontalScrollState = ScrollState.end;
                 }
@@ -73,7 +73,8 @@ class _ScrollListViewState extends State<ScrollListView> {
             } else {
               if (_isHorizontalScrollState == ScrollState.scrolling) {
                 await fixScrollPosition();
-                _horizontalProgress += pointerSignal.scrollDelta.dy * horizontalScrollSpeed;
+                _horizontalProgress +=
+                    pointerSignal.scrollDelta.dy * horizontalScrollSpeed;
                 // 가로 스크롤이 초기 상태로 되돌아 왔을 때
                 if (_horizontalProgress < 0) {
                   _isVerticalScrollable = true;
@@ -97,34 +98,23 @@ class _ScrollListViewState extends State<ScrollListView> {
         physics:
             _isVerticalScrollable ? null : const NeverScrollableScrollPhysics(),
         child: Column(
-            children: List.generate(4, (index) {
-          if (index == 2) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: ListView(
-                key: _horizontalKey,
-                physics: const NeverScrollableScrollPhysics(),
-                scrollDirection: Axis.horizontal,
-                controller: _horizontalController,
-                shrinkWrap: true,
-                children: List.generate(10, (index) {
-                  return Container(
-                      width: 200,
-                      height: 200,
-                      color: Colors.green,
-                      child: Text("index ${index}"));
-                }),
-              ),
-            );
-          } else {
-            return Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.blue,
-              child: Text("안녕하세요"),
-            );
-          }
-        })),
+          children: List.generate(4, (index) {
+            if (index == 2) {
+              return booksView(
+                screenHeight: MediaQuery.of(context).size.height,
+                horizontalKey: _horizontalKey,
+                horizontalController: _horizontalController,
+              );
+            } else {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: Colors.blue,
+                child: Text("안녕하세요"),
+              );
+            }
+          }),
+        ),
       ),
     );
   }
