@@ -5,31 +5,38 @@ Widget booksView({
   required GlobalKey horizontalKey,
   required ScrollController horizontalController,
 }) {
-  return SizedBox(
+  return Container(
+    color: Colors.black,
     height: screenHeight,
     child: GridView(
-        key: horizontalKey,
-        physics: const NeverScrollableScrollPhysics(),
-        scrollDirection: Axis.horizontal,
-        controller: horizontalController,
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          childAspectRatio: 1.5,
-        ),
-        children: myBooks
-            .map(
-              (bookVo) => Container(
-                color: Colors.grey[200],
-                alignment: Alignment.center,
-                margin: const EdgeInsets.all(8),
+      key: horizontalKey,
+      physics: const NeverScrollableScrollPhysics(),
+      scrollDirection: Axis.horizontal,
+      controller: horizontalController,
+      padding: const EdgeInsets.symmetric(horizontal: 60),
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        childAspectRatio: 0.7,
+      ),
+      children: myBooks
+          .mapIndexed(
+            (index, bookVo) => MouseRegion(
+              onHover: (event) {
+              },
+              child: Container(
+                color: Colors.black,
+                alignment: index % 3 == 1
+                    ? Alignment.centerRight
+                    : Alignment.centerLeft,
+                padding: EdgeInsets.all(8),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
-                      'https://picsum.photos/250?image=9',
+                      bookVo.coverImage,
                       width: 100,
-                      height: 100,
+                      height: 120,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 8),
@@ -43,7 +50,9 @@ Widget booksView({
                   ],
                 ),
               ),
-            )
-            .toList()),
+            ),
+          )
+          .toList(),
+    ),
   );
 }
