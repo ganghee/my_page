@@ -36,7 +36,7 @@ Widget booksView({
                     Image.network(
                       bookVo.coverImage,
                       width: 100,
-                      height: 120,
+                      height: 150,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 8),
