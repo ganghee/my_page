@@ -21,38 +21,70 @@ Widget booksView({
       ),
       children: myBooks
           .mapIndexed(
-            (index, bookVo) => MouseRegion(
-              onHover: (event) {
-              },
-              child: Container(
-                color: Colors.black,
-                alignment: index % 3 == 1
-                    ? Alignment.centerRight
-                    : Alignment.centerLeft,
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                      bookVo.coverImage,
-                      width: 100,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      bookVo.title,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
+              (index, bookVo) => _BookItemView(bookVo: bookVo, index: index))
           .toList(),
     ),
   );
+}
+
+class _BookItemView extends StatefulWidget {
+  final BookVo bookVo;
+  final int index;
+
+  const _BookItemView({required this.bookVo, required this.index});
+
+  @override
+  State<_BookItemView> createState() => _BookItemViewState();
+}
+
+class _BookItemViewState extends State<_BookItemView> {
+  bool isHover = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    return Container(
+      color: Colors.black,
+      alignment:
+          widget.index % 3 == 1 ? Alignment.centerRight : Alignment(-0.7, 0),
+      padding: EdgeInsets.all(8),
+      child: MouseRegion(
+        onHover: (event) {
+          setState(() {
+            isHover = true;
+          });
+        },
+        onExit: (event) {
+          setState(() {
+            isHover = false;
+          });
+        },
+        child: Stack(
+          children: [
+            Image.network(
+              widget.bookVo.coverImage,
+              width: (screenHeight / 3 - 60) * 2 / 3,
+              height: screenHeight / 3 - 60,
+              fit: BoxFit.cover,
+            ),
+            isHover
+                ? Container(
+              width: (screenHeight / 3 - 60) * 2 / 3,
+              height: screenHeight / 3 - 60,
+                    color: Color(0x66000000),
+                    child: Center(
+                      child: Text(
+                        widget.bookVo.title,
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+          ],
+        ),
+      ),
+    );
+  }
 }

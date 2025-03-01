@@ -1,6 +1,6 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:collection/collection.dart';
 
 import 'book_vo.dart';
 
@@ -84,7 +84,6 @@ class _ScrollListViewState extends State<ScrollListView> {
 
   detectScroll(PointerSignalEvent pointerSignal) async {
     if (pointerSignal is PointerScrollEvent) {
-
       final currentPosition = _verticalController.offset; // 현재 위치
       // 스크롤 위치가 가로 스크롤 위치에 있을 때
       if (currentPosition >= _horizontalY &&
@@ -129,9 +128,10 @@ class _ScrollListViewState extends State<ScrollListView> {
         _isHorizontalScrollState = ScrollState.scrolling;
         await fixScrollPosition();
       }
-      if(_isHorizontalScrollState == ScrollState.end) {
-        _horizontalController.jumpTo(_horizontalController.position.maxScrollExtent);
-      }else if(_isHorizontalScrollState == ScrollState.init) {
+      if (_isHorizontalScrollState == ScrollState.end) {
+        _horizontalController
+            .jumpTo(_horizontalController.position.maxScrollExtent);
+      } else if (_isHorizontalScrollState == ScrollState.init) {
         _horizontalController.jumpTo(0);
       } else {
         _horizontalController.jumpTo(_horizontalProgress);
