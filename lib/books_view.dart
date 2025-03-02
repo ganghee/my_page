@@ -43,6 +43,7 @@ class _BookItemViewState extends State<_BookItemView> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final bookHeight = screenHeight / 3 - 60;
 
     return Container(
       color: Colors.black,
@@ -64,14 +65,14 @@ class _BookItemViewState extends State<_BookItemView> {
           children: [
             Image.network(
               widget.bookVo.coverImage,
-              width: (screenHeight / 3 - 60) * 2 / 3,
-              height: screenHeight / 3 - 60,
+              width: bookHeight * 2 / 3,
+              height: bookHeight,
               fit: BoxFit.cover,
             ),
             isHover
                 ? Container(
-              width: (screenHeight / 3 - 60) * 2 / 3,
-              height: screenHeight / 3 - 60,
+              width: bookHeight * 2 / 3,
+              height: bookHeight,
                     color: Color(0x66000000),
                     child: Center(
                       child: Text(
