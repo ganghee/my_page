@@ -21,7 +21,7 @@ enum ScrollState {
 
 class _ScrollListViewState extends State<ScrollListView> {
   final ScrollController _verticalController = ScrollController();
-  final ScrollController _horizontalController = ScrollController();
+  final ScrollController _bookScrollController = ScrollController();
   final GlobalKey _horizontalKey = GlobalKey();
   final horizontalScrollSpeed = 0.5;
   double _horizontalProgress = 0.0;
@@ -47,7 +47,7 @@ class _ScrollListViewState extends State<ScrollListView> {
       onPointerSignal: (pointerSignal) async {
         /// 스크롤 이벤트 감지
         /// detect scroll event
-        await detectScroll(pointerSignal);
+        await detectBookScroll(pointerSignal);
       },
       child: SingleChildScrollView(
         controller: _verticalController,
@@ -59,7 +59,7 @@ class _ScrollListViewState extends State<ScrollListView> {
               return booksView(
                 screenHeight: MediaQuery.of(context).size.height,
                 horizontalKey: _horizontalKey,
-                horizontalController: _horizontalController,
+                bookScrollController: _bookScrollController,
               );
             } else {
               return Container(
@@ -82,7 +82,7 @@ class _ScrollListViewState extends State<ScrollListView> {
     _verticalController.jumpTo(_horizontalY);
   }
 
-  detectScroll(PointerSignalEvent pointerSignal) async {
+  detectBookScroll(PointerSignalEvent pointerSignal) async {
     if (pointerSignal is PointerScrollEvent) {
       final currentPosition = _verticalController.offset; // 현재 위치
       // 스크롤 위치가 가로 스크롤 위치에 있을 때
@@ -102,7 +102,7 @@ class _ScrollListViewState extends State<ScrollListView> {
             }
 
             if (_horizontalProgress >
-                _horizontalController.position.maxScrollExtent - 10) {
+                _bookScrollController.position.maxScrollExtent - 10) {
               _isVerticalScrollable = true;
               _isHorizontalScrollState = ScrollState.end;
             }
@@ -129,12 +129,12 @@ class _ScrollListViewState extends State<ScrollListView> {
         await fixScrollPosition();
       }
       if (_isHorizontalScrollState == ScrollState.end) {
-        _horizontalController
-            .jumpTo(_horizontalController.position.maxScrollExtent);
+        _bookScrollController
+            .jumpTo(_bookScrollController.position.maxScrollExtent);
       } else if (_isHorizontalScrollState == ScrollState.init) {
-        _horizontalController.jumpTo(0);
+        _bookScrollController.jumpTo(0);
       } else {
-        _horizontalController.jumpTo(_horizontalProgress);
+        _bookScrollController.jumpTo(_horizontalProgress);
       }
     }
   }
