@@ -99,7 +99,6 @@ class _BookItemViewState extends State<_BookItemView> {
     final bookHeight = screenHeight / 3 - 60;
 
     return Container(
-      // color: Colors.black,
       alignment:
           widget.index % 3 == 1 ? Alignment.centerRight : Alignment(-0.7, 0),
       padding: EdgeInsets.all(8),

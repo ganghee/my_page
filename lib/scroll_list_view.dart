@@ -75,6 +75,7 @@ class _ScrollListViewState extends State<ScrollListView> {
     );
   }
 
+  // 스크롤 위치를 고정시키는 함수
   fixScrollPosition() async {
     _isVerticalScrollable = false;
     _verticalController.jumpTo(_horizontalY);
@@ -82,6 +83,7 @@ class _ScrollListViewState extends State<ScrollListView> {
     _verticalController.jumpTo(_horizontalY);
   }
 
+  // 책 가로 스크롤 이벤트 감지
   detectBookScroll(PointerSignalEvent pointerSignal) async {
     if (pointerSignal is PointerScrollEvent) {
       final currentPosition = _verticalController.offset; // 현재 위치
