@@ -98,6 +98,7 @@ class _BookItemViewState extends State<_BookItemView> {
     final screenHeight = MediaQuery.of(context).size.height;
     final bookHeight = screenHeight / 3 - 60;
 
+    // 두 번째 줄은 오른쪽 정렬
     return Container(
       alignment:
           widget.index % 3 == 1 ? Alignment.centerRight : Alignment(-0.7, 0),
