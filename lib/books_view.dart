@@ -90,8 +90,16 @@ class _BookItemView extends StatefulWidget {
   State<_BookItemView> createState() => _BookItemViewState();
 }
 
-class _BookItemViewState extends State<_BookItemView> {
-  bool isHover = false;
+class _BookItemViewState extends State<_BookItemView> with SingleTickerProviderStateMixin {
+  bool _isHover = false;
+  late final AnimationController _animationController = AnimationController(
+    duration: Duration(seconds: Random().nextInt(3) + 1),
+    vsync: this,
+  )..repeat(reverse: true);
+  late final Animation<Offset> _animation = Tween<Offset>(
+    begin: Offset.zero,
+    end: const Offset(0, 0.08),
+  ).animate(_animationController);
 
   @override
   Widget build(BuildContext context) {
@@ -100,30 +108,33 @@ class _BookItemViewState extends State<_BookItemView> {
 
     // 두 번째 줄은 오른쪽 정렬
     return Container(
+      key: ValueKey(widget.index),
       alignment:
           widget.index % 3 == 1 ? Alignment.centerRight : Alignment(-0.7, 0),
       padding: EdgeInsets.all(8),
       child: MouseRegion(
         onHover: (event) {
           setState(() {
-            isHover = true;
+            _isHover = true;
           });
         },
         onExit: (event) {
           setState(() {
-            isHover = false;
+            _isHover = false;
           });
         },
-        child: Stack(
-          children: [
-            Image.network(
-              widget.bookVo.coverImage,
-              width: bookHeight * 2 / 3,
-              height: bookHeight,
-              fit: BoxFit.cover,
-            ),
-            isHover
-                ? Container(
+        child: SlideTransition(
+          position: _animation,
+          child: Stack(
+            children: [
+              Image.network(
+                widget.bookVo.coverImage,
+                width: bookHeight * 2 / 3,
+                height: bookHeight,
+                fit: BoxFit.cover,
+              ),
+              _isHover
+                  ? Container(
                     width: bookHeight * 2 / 3,
                     height: bookHeight,
                     color: Color(0x66000000),
@@ -135,8 +146,9 @@ class _BookItemViewState extends State<_BookItemView> {
                       ),
                     ),
                   )
-                : const SizedBox(),
-          ],
+                  : const SizedBox(),
+            ],
+          ),
         ),
       ),
     );
