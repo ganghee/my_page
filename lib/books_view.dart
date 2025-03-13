@@ -102,6 +102,12 @@ class _BookItemViewState extends State<_BookItemView> with SingleTickerProviderS
   ).animate(_animationController);
 
   @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final bookHeight = screenHeight / 3 - 60;
