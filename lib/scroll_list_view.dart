@@ -8,6 +8,8 @@ import 'book_vo.dart';
 
 part 'books_view.dart';
 
+part 'baking_view.dart';
+
 class ScrollListView extends StatefulWidget {
   const ScrollListView({super.key});
 
@@ -57,7 +59,9 @@ class _ScrollListViewState extends State<ScrollListView> {
             _isVerticalScrollable ? null : const NeverScrollableScrollPhysics(),
         child: Column(
           children: List.generate(4, (index) {
-            if (index == 1) {
+            if (index == 0) {
+              return bakingView();
+            } else if (index == 1) {
               return booksView(
                 screenHeight: MediaQuery.of(context).size.height,
                 horizontalKey: _horizontalKey,
