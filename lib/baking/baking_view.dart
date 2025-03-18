@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my/baking/baking_vo.dart';
 
 import 'baking_controller.dart';
 
@@ -29,17 +30,25 @@ class _BakingViewState extends State<_BakingView>
   late final ScrollController _scrollController = ScrollController();
   late AnimationController _animationController;
   late Animation<double> _animation;
-  final double radius = 100.0;
+  final double radius = 10.0;
+  final animationDuration = Duration(seconds: 1);
 
   @override
   void initState() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1),
+      duration: animationDuration,
     );
-    _animation =
-        Tween<double>(begin: pi / 3, end: 2 * pi).animate(_animationController);
-
+    _animation = Tween<double>(begin: 0, end: pi * 2 * bakings.length / 3)
+        .animate(_animationController);
+    _animationController.addListener(
+      () {
+        Get.find<BakingController>().changeAnimationValue(
+          currentAnimationValue: _animationController.value,
+          isForward: _animationController.velocity >= 0,
+        );
+      },
+    );
     super.initState();
   }
 
@@ -67,22 +76,20 @@ class _BakingViewState extends State<_BakingView>
       child: GetBuilder(
           init: BakingController(),
           builder: (controller) {
-            if (controller.focusIndex == 1) {
-              _animationController.animateTo( 1 / 3);
-            } else if(controller.focusIndex == 2) {
-              _animationController.animateTo(2 / 3);
-            }else if(controller.focusIndex == 3) {
-              _animationController.animateTo(3 / 3);
-            }
+            _animationController.animateTo(
+              controller.focusIndex / bakings.length,
+              duration: Duration(seconds: 1),
+            );
+
             return Stack(
               children: [
                 AnimatedBuilder(
                   animation: _animation,
                   builder: (context, child) {
                     final x = radius * cos(_animation.value) * 2;
-                    final y = radius * sin(_animation.value);
+                    final y = radius * sin(_animation.value) * 2;
                     return Transform.translate(
-                      offset: Offset(x, y),
+                      offset: Offset(x + 100, y + 100),
                       child: child,
                     );
                   },
@@ -90,8 +97,46 @@ class _BakingViewState extends State<_BakingView>
                     width: 20,
                     height: 20,
                     decoration: BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
+                      color: controller.currentBakingVo.color,
+                      shape: BoxShape.rectangle,
+                    ),
+                  ),
+                ),
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    final x = radius * cos(_animation.value - (pi * 2 / 3)) * 2;
+                    final y = radius * sin(_animation.value - (pi * 2 / 3)) * 2;
+                    return Transform.translate(
+                      offset: Offset(x + 100, y + 100),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: controller.nextBakingVo.color,
+                      shape: BoxShape.rectangle,
+                    ),
+                  ),
+                ),
+                AnimatedBuilder(
+                  animation: _animation,
+                  builder: (context, child) {
+                    final x = radius * cos(_animation.value - (pi * 4 / 3)) * 2;
+                    final y = radius * sin(_animation.value - (pi * 4 / 3)) * 2;
+                    return Transform.translate(
+                      offset: Offset(x + 100, y + 100),
+                      child: child,
+                    );
+                  },
+                  child: Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: controller.beforeBakingVo.color,
+                      shape: BoxShape.rectangle,
                     ),
                   ),
                 ),
