@@ -1,6 +1,6 @@
-part of './scroll_list_view.dart';
+part of '../scroll_list_view.dart';
 
-Widget booksView({
+Widget _booksView({
   required double screenHeight,
   required GlobalKey horizontalKey,
   required ScrollController bookScrollController,
@@ -33,49 +33,33 @@ Widget booksView({
   );
 }
 
-class _BookBackgroundView extends StatefulWidget {
+class _BookBackgroundView extends StatelessWidget {
   final ScrollController bookScrollController;
 
   const _BookBackgroundView({required this.bookScrollController});
 
   @override
-  State<_BookBackgroundView> createState() => _BookBackgroundViewState();
-}
-
-class _BookBackgroundViewState extends State<_BookBackgroundView> {
-  final ScrollController _bookBackgroundController = ScrollController();
-
-  @override
-  void initState() {
-    widget.bookScrollController.addListener(() {
-      _bookBackgroundController
-          .jumpTo(widget.bookScrollController.offset * 0.5);
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _bookBackgroundController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return ListView(
-      controller: _bookBackgroundController,
-      scrollDirection: Axis.horizontal,
-      children: List.generate(
-        30,
-        (_) => Opacity(
-          opacity: 0.5,
-          child: Image.network(
-            'https://i.postimg.cc/k48Q3YJk/Screenshot-2025-03-04-at-3-00-07-AM.png',
-            fit: BoxFit.cover,
-            repeat: ImageRepeat.repeat,
+    return GetBuilder(
+      init: BookBackgroundScrollController(),
+      builder: (controller) {
+        controller.slowMoveBackground(bookScrollController);
+        return ListView(
+          controller: controller.bookBackgroundController,
+          scrollDirection: Axis.horizontal,
+          children: List.generate(
+            30,
+            (_) => Opacity(
+              opacity: 0.5,
+              child: Image.network(
+                'https://i.postimg.cc/k48Q3YJk/Screenshot-2025-03-04-at-3-00-07-AM.png',
+                fit: BoxFit.cover,
+                repeat: ImageRepeat.repeat,
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -90,7 +74,8 @@ class _BookItemView extends StatefulWidget {
   State<_BookItemView> createState() => _BookItemViewState();
 }
 
-class _BookItemViewState extends State<_BookItemView> with SingleTickerProviderStateMixin {
+class _BookItemViewState extends State<_BookItemView>
+    with SingleTickerProviderStateMixin {
   bool _isHover = false;
   late final AnimationController _animationController = AnimationController(
     duration: Duration(seconds: Random().nextInt(3) + 1),
@@ -141,17 +126,17 @@ class _BookItemViewState extends State<_BookItemView> with SingleTickerProviderS
               ),
               _isHover
                   ? Container(
-                    width: bookHeight * 2 / 3,
-                    height: bookHeight,
-                    color: Color(0x66000000),
-                    child: Center(
-                      child: Text(
-                        widget.bookVo.title,
-                        style: TextStyle(color: Colors.white),
-                        textAlign: TextAlign.center,
+                      width: bookHeight * 2 / 3,
+                      height: bookHeight,
+                      color: Color(0x66000000),
+                      child: Center(
+                        child: Text(
+                          widget.bookVo.title,
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
-                    ),
-                  )
+                    )
                   : const SizedBox(),
             ],
           ),
