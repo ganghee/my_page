@@ -20,7 +20,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '크로와상',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://pngimg.com/uploads/croissant/croissant_PNG46660.png',
     ingredients:
         '이스트 5g, 소금 5g, 설탕 20g, 계란 10g, 버터 20g, 강력분 250g, 버터 120g, 물 120g',
     recipe: [
@@ -43,7 +43,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '식빵',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://purepng.com/public/uploads/large/purepng.com-sliced-breadfood-bread-941524637257xz7f4.png',
     ingredients:
         '우유 140g, 계란 35g, 설탕 35g, 소금 6g, 드라이 이스트 4g, 강력분 240g, 무염 버터 32g',
     recipe: [],
@@ -52,7 +52,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '모닝빵',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://static.vecteezy.com/system/resources/thumbnails/049/111/541/small_2x/freshly-baked-dinner-rolls-arranged-on-a-plate-cut-out-stock-png.png',
     ingredients:
         '우유 160g, 계란 하나, 설탕 40g, 소금 5g, 드라이 이스트 5g, 강력분 310g, 무염 버터 35g',
     recipe: [],
@@ -61,7 +61,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '스콘',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://orchardleafoods.co.uk/wp-content/uploads/2023/02/Scone_City.png',
     ingredients: '박력분 200g, 베이킹파우더 5g, 소금 2g, 설탕 35g, 무염 버터 80g, 우유 25g, 계란 1개',
     recipe: [],
     color: Colors.pinkAccent,
@@ -69,7 +69,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '쿠키',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://static.vecteezy.com/system/resources/thumbnails/044/308/311/small_2x/chocolate-chip-cookies-with-transparent-background-png.png',
     ingredients:
         '차가운 무염 버터 94g, 설탕 114g, 중력분 155g, 베이킹 파우더 2g, 소금 1g, 계란 1개, 베이킹소다 2g, 전처리한 호두 150g, 다진 초콜릿 168g',
     recipe: [],
@@ -78,7 +78,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '치즈 케이크',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://images.squarespace-cdn.com/content/v1/538500e4e4b0fa9e95efc7b9/1627656601170-ZPCM9P1F97Y0XZU1FVEB/New+York+Baby+CC+slice+isolated.png?format=1000w',
     ingredients: '크림 치즈 350g, 설탕 80g, 계란 85g, 생크림 110g',
     recipe: [],
     color: Colors.greenAccent,
@@ -86,7 +86,7 @@ List<BakingVo> bakings = [
   BakingVo(
     name: '두바이 초콜릿',
     imageUrl:
-        'https://dev-item.elandeats.co.kr/r/image/display/2024-08-26/ef4eba2f-b981-4a2c-9ffa-bfdcc26d09d2.jpg?w=630.00&h=840.00&q=100',
+        'https://www.mochidoh.ca/cdn/shop/files/dubai_bar_no_background.png?v=1739144773',
     ingredients: '카다이프 200g, 버터 110g, 피스타치오 페이스트 500g, 커버춰 400g',
     recipe: [],
     color: Colors.white30,
