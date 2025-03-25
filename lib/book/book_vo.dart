@@ -4,6 +4,7 @@ class BookVo {
   String publisher;
   String coverImage;
   String description;
+  DateTime date;
 
   BookVo({
     required this.title,
@@ -11,6 +12,7 @@ class BookVo {
     required this.publisher,
     required this.coverImage,
     required this.description,
+    required this.date,
   });
 }
 
@@ -19,8 +21,10 @@ List<BookVo> myBooks = [
     title: '데미안',
     author: '헤르만 헤세',
     publisher: '민음사',
-    coverImage: 'https://minumsa.minumsa.com/wp-content/uploads/bookcover/044_%EB%8D%B0%EB%AF%B8%EC%95%88-300x504.jpg',
+    coverImage:
+        'https://minumsa.minumsa.com/wp-content/uploads/bookcover/044_%EB%8D%B0%EB%AF%B8%EC%95%88-300x504.jpg',
     description: '',
+    date: DateTime(2025, 1, 5),
   ),
   BookVo(
     title: '여기는 커스터드, 특별한 도시락을 팝니다',
@@ -28,6 +32,7 @@ List<BookVo> myBooks = [
     publisher: '필름',
     coverImage: 'https://image.yes24.com/goods/110643268/XL',
     description: '',
+    date: DateTime(2024, 12, 5),
   ),
   BookVo(
     title: '하쿠다 사진관',
@@ -35,6 +40,7 @@ List<BookVo> myBooks = [
     publisher: '놀',
     coverImage: 'https://image.yes24.com/goods/110733803/XL',
     description: '',
+    date: DateTime(2020, 12, 5),
   ),
   BookVo(
     title: '리더의 말그릇',
@@ -42,6 +48,7 @@ List<BookVo> myBooks = [
     publisher: '카시오페아',
     coverImage: 'https://image.yes24.com/goods/98897587/XL',
     description: '',
+    date: DateTime(2024, 10, 27),
   ),
   BookVo(
     title: '리더의 질문법',
@@ -49,6 +56,7 @@ List<BookVo> myBooks = [
     publisher: '심심',
     coverImage: 'https://image.yes24.com/goods/107997384/XL',
     description: '',
+    date: DateTime(2024, 10, 5),
   ),
   BookVo(
     title: '메리골드 마음 세탁소',
@@ -56,6 +64,7 @@ List<BookVo> myBooks = [
     publisher: '북로망스',
     coverImage: 'https://image.yes24.com/goods/124339743/XL',
     description: '',
+    date: DateTime(2024, 6, 22),
   ),
   BookVo(
     title: '메리골드 마음 사진관',
@@ -63,6 +72,7 @@ List<BookVo> myBooks = [
     publisher: '북로망스',
     coverImage: 'https://image.yes24.com/goods/117716170/XL',
     description: '',
+    date: DateTime(2024, 6, 2),
   ),
   BookVo(
     title: '두려움 없는 조직',
@@ -70,6 +80,7 @@ List<BookVo> myBooks = [
     publisher: '다산북스',
     coverImage: 'https://image.yes24.com/goods/79633189/XL',
     description: '',
+    date: DateTime(2024, 5, 21),
   ),
   BookVo(
     title: '구의 증명',
@@ -77,6 +88,7 @@ List<BookVo> myBooks = [
     publisher: '은행나무',
     coverImage: 'https://image.yes24.com/goods/118578901/XL',
     description: '',
+    date: DateTime(2024, 5, 21),
   ),
   BookVo(
     title: '어서오세요, 휴남동 서점입니다',
@@ -84,6 +96,7 @@ List<BookVo> myBooks = [
     publisher: '클레이하우스',
     coverImage: 'https://image.yes24.com/goods/106211628/XL',
     description: '',
+    date: DateTime(2024, 5, 16),
   ),
   BookVo(
     title: '밝은 밤',
@@ -91,6 +104,7 @@ List<BookVo> myBooks = [
     publisher: '문학동네',
     coverImage: 'https://image.yes24.com/goods/102687133/XL',
     description: '',
+    date: DateTime(2024, 5, 7),
   ),
   BookVo(
     title: '유연한의 힘',
@@ -98,13 +112,7 @@ List<BookVo> myBooks = [
     publisher: '상상스퀘어',
     coverImage: 'https://image.yes24.com/goods/118755548/XL',
     description: '',
-  ),
-  BookVo(
-    title: '유연함의 힘',
-    author: '수잔 애쉬포드',
-    publisher: '상상스퀘어',
-    coverImage: 'https://image.yes24.com/goods/118755548/XL',
-    description: '',
+    date: DateTime(2023, 12, 31),
   ),
   BookVo(
     title: '프레임',
@@ -112,6 +120,7 @@ List<BookVo> myBooks = [
     publisher: '21세기북스',
     coverImage: 'https://image.yes24.com/goods/99640630/XL',
     description: '',
+    date: DateTime(2023, 10, 31),
   ),
   BookVo(
     title: '사실은 이것도 디자인입니다',
@@ -119,6 +128,7 @@ List<BookVo> myBooks = [
     publisher: '한빛미디어',
     coverImage: 'https://image.yes24.com/goods/120235845/XL',
     description: '',
+    date: DateTime(2023, 10, 15),
   ),
   BookVo(
     title: '혼돈의 시대 리더의 탄생',
@@ -126,6 +136,7 @@ List<BookVo> myBooks = [
     publisher: '커넥팅',
     coverImage: 'https://image.yes24.com/goods/89400268/XL',
     description: '',
+    date: DateTime(2023, 9, 2),
   ),
   BookVo(
     title: '있는 공간, 없는 공간',
@@ -133,6 +144,7 @@ List<BookVo> myBooks = [
     publisher: '쌤앤파커스',
     coverImage: 'https://image.yes24.com/goods/119420884/XL',
     description: '',
+    date: DateTime(2023, 7, 30),
   ),
   BookVo(
     title: '불편한 편의점',
@@ -140,6 +152,7 @@ List<BookVo> myBooks = [
     publisher: '나무옆의자',
     coverImage: 'https://image.yes24.com/goods/99308021/XL',
     description: '',
+    date: DateTime(2023, 6, 16),
   ),
   BookVo(
     title: '불편한 편의점2',
@@ -147,13 +160,7 @@ List<BookVo> myBooks = [
     publisher: '나무옆의자',
     coverImage: 'https://image.yes24.com/goods/111088149/XL',
     description: '',
-  ),
-  BookVo(
-    title: '불편한 편의점2',
-    author: '김호연',
-    publisher: '나무옆의자',
-    coverImage: 'https://image.yes24.com/goods/111088149/XL',
-    description: '',
+    date: DateTime(2023, 7, 1),
   ),
   BookVo(
     title: '세상의 마지막 기차역',
@@ -161,6 +168,7 @@ List<BookVo> myBooks = [
     publisher: '모모',
     coverImage: 'https://image.yes24.com/goods/109308932/XL',
     description: '',
+    date: DateTime(2023, 5, 27),
   ),
   BookVo(
     title: '용의자 X의 헌신',
@@ -168,6 +176,7 @@ List<BookVo> myBooks = [
     publisher: '재인',
     coverImage: 'https://image.yes24.com/goods/45353675/XL',
     description: '',
+    date: DateTime(2023, 5, 7),
   ),
   BookVo(
     title: '타이탄의 도구들',
@@ -175,6 +184,7 @@ List<BookVo> myBooks = [
     publisher: '토네이도',
     coverImage: 'https://image.yes24.com/goods/59262656/XL',
     description: '',
+    date: DateTime(2023, 4, 16),
   ),
   BookVo(
     title: '상상하지 말라',
@@ -182,6 +192,7 @@ List<BookVo> myBooks = [
     publisher: '북스톤',
     coverImage: 'https://image.yes24.com/goods/73363770/XL',
     description: '',
+    date: DateTime(2023, 4, 16),
   ),
   BookVo(
     title: '인간 실격',
@@ -189,6 +200,7 @@ List<BookVo> myBooks = [
     publisher: '민음사',
     coverImage: 'https://image.yes24.com/goods/1387488/XL',
     description: '',
+    date: DateTime(2022, 11, 4),
   ),
   BookVo(
     title: '부자 아빠 가난한 아빠',
@@ -196,13 +208,15 @@ List<BookVo> myBooks = [
     publisher: '황금가지',
     coverImage: 'https://image.yes24.com/momo/TopCate54/MidCate09/5389958.jpg',
     description: '',
+    date: DateTime(2022, 8, 6),
   ),
   BookVo(
-    title: '달러구트 꿈 백화점',
+    title: '달러구트 꿈 백화점2',
     author: '이미예',
     publisher: '팩토리나인',
     coverImage: 'https://image.yes24.com/goods/102789938/XL',
     description: '',
+    date: DateTime(2022, 8, 6),
   ),
   BookVo(
     title: '오직 두 사람',
@@ -210,6 +224,7 @@ List<BookVo> myBooks = [
     publisher: '복복서가',
     coverImage: 'https://image.yes24.com/goods/110508159/XL',
     description: '',
+    date: DateTime(2022, 7, 16),
   ),
   BookVo(
     title: '오늘도 개발자가 안 된다고 말했다',
@@ -217,6 +232,7 @@ List<BookVo> myBooks = [
     publisher: '디지털북스',
     coverImage: 'https://image.yes24.com/goods/97919905/XL',
     description: '',
+    date: DateTime(2022, 1, 29),
   ),
   BookVo(
     title: '갈등을 잘 다루니 인간관계가 쉬워졌습니다',
@@ -224,6 +240,7 @@ List<BookVo> myBooks = [
     publisher: '메이트북스',
     coverImage: 'https://image.yes24.com/goods/70776660/XL',
     description: '',
+    date: DateTime(2021, 12, 30),
   ),
   BookVo(
     title: '나미야 잡화점의 기적',
@@ -231,13 +248,16 @@ List<BookVo> myBooks = [
     publisher: '현대문학',
     coverImage: 'https://image.yes24.com/goods/116586056/XL',
     description: '',
+    date: DateTime(2021, 10, 24),
   ),
   BookVo(
     title: '피프티 피플',
     author: '정세랑',
     publisher: '창비',
-    coverImage: 'https://image.yes24.com/momo/TopCate984/MidCate002/98313676.jpg',
+    coverImage:
+        'https://image.yes24.com/momo/TopCate984/MidCate002/98313676.jpg',
     description: '',
+    date: DateTime(2021, 9, 29),
   ),
   BookVo(
     title: '보건교사 안은영',
@@ -245,6 +265,7 @@ List<BookVo> myBooks = [
     publisher: '믿음사',
     coverImage: 'https://image.yes24.com/momo/TopCate0001/kepub/L_482552.jpg',
     description: '',
+    date: DateTime(2021, 9, 24),
   ),
   BookVo(
     title: '최고의 팀은 무엇이 다른가',
@@ -252,13 +273,16 @@ List<BookVo> myBooks = [
     publisher: '웅진지식하우스',
     coverImage: 'https://image.yes24.com/goods/59316692/XL',
     description: '',
+    date: DateTime(2021, 8, 22),
   ),
   BookVo(
     title: '쿠팡, 우리가 혁신하는 이유',
     author: '문석현',
     publisher: '갈매나무',
-    coverImage: 'https://image.yes24.com/momo/TopCate1053/MidCate003/105222207.jpg',
+    coverImage:
+        'https://image.yes24.com/momo/TopCate1053/MidCate003/105222207.jpg',
     description: '',
+    date: DateTime(2021, 8, 14),
   ),
   BookVo(
     title: '나는 아마존에서 미래를 다녔다',
@@ -266,6 +290,7 @@ List<BookVo> myBooks = [
     publisher: '한빛비즈',
     coverImage: 'https://image.yes24.com/goods/69770721/XLg',
     description: '',
+    date: DateTime(2021, 8, 10),
   ),
   BookVo(
     title: '영어일기 표현사전',
@@ -273,6 +298,7 @@ List<BookVo> myBooks = [
     publisher: '넥서스',
     coverImage: 'https://image.yes24.com/goods/71954641/XL',
     description: '',
+    date: DateTime(2021, 3, 30),
   ),
   BookVo(
     title: '13 Reasons Why',
@@ -280,6 +306,7 @@ List<BookVo> myBooks = [
     publisher: 'Razorbil',
     coverImage: 'https://image.yes24.com/goods/35898297/XL',
     description: '',
+    date: DateTime(2021, 3, 26),
   ),
   BookVo(
     title: '번역의 탄생',
@@ -287,6 +314,7 @@ List<BookVo> myBooks = [
     publisher: '교양인',
     coverImage: 'https://image.yes24.com/goods/3282824/XL',
     description: '',
+    date: DateTime(2021, 3, 26),
   ),
   BookVo(
     title: '살인자의 기억법',
@@ -294,6 +322,7 @@ List<BookVo> myBooks = [
     publisher: '문학동네',
     coverImage: 'https://image.yes24.com/goods/9196011/XL',
     description: '',
+    date: DateTime(2021, 2, 11),
   ),
   BookVo(
     title: '그런 사람 또 없습니다',
@@ -301,6 +330,7 @@ List<BookVo> myBooks = [
     publisher: '북로그컴퍼니',
     coverImage: 'https://image.yes24.com/goods/95275828/XL',
     description: '',
+    date: DateTime(2021, 2, 10),
   ),
   BookVo(
     title: '사피엔스',
@@ -308,6 +338,7 @@ List<BookVo> myBooks = [
     publisher: '김영사',
     coverImage: 'https://image.yes24.com/goods/23030284/XL',
     description: '',
+    date: DateTime(2021, 2, 4),
   ),
   BookVo(
     title: 'English for Developers',
@@ -315,6 +346,7 @@ List<BookVo> myBooks = [
     publisher: '한빛미디어',
     coverImage: 'https://image.yes24.com/Goods/19992192/XL',
     description: '',
+    date: DateTime(2020, 12, 30),
   ),
   BookVo(
     title: '트랜드 코리아 2021',
@@ -322,6 +354,7 @@ List<BookVo> myBooks = [
     publisher: '한빛미디어',
     coverImage: 'https://image.yes24.com/Goods/93068681/XL',
     description: '',
+    date: DateTime(2020, 12, 28),
   ),
   BookVo(
     title: '언어의 온도',
@@ -329,6 +362,7 @@ List<BookVo> myBooks = [
     publisher: '말글터',
     coverImage: 'https://image.yes24.com/goods/30387696/XL',
     description: '',
+    date: DateTime(2020, 12, 21),
   ),
   BookVo(
     title: '1cm 다이빙',
@@ -336,6 +370,7 @@ List<BookVo> myBooks = [
     publisher: '피카',
     coverImage: 'https://image.yes24.com/goods/86543588/XL',
     description: '',
+    date: DateTime(2020, 12, 16),
   ),
   BookVo(
     title: 'IT 개발자의 영어 필살기',
@@ -343,6 +378,7 @@ List<BookVo> myBooks = [
     publisher: '책만',
     coverImage: 'https://image.yes24.com/goods/85385648/XL',
     description: '',
+    date: DateTime(2020, 12, 17),
   ),
   BookVo(
     title: '인생의 마지막 순간에서',
@@ -350,6 +386,7 @@ List<BookVo> myBooks = [
     publisher: '비잉',
     coverImage: 'https://image.yes24.com/goods/74644329/XL',
     description: '',
+    date: DateTime(2020, 12, 12),
   ),
   BookVo(
     title: '지구 끝의 온실',
@@ -357,13 +394,16 @@ List<BookVo> myBooks = [
     publisher: '자이언트북스',
     coverImage: 'https://image.yes24.com/goods/103026125/XL',
     description: '',
+    date: DateTime(2020, 12, 4),
   ),
   BookVo(
     title: 'About Face 4 인터랙션 디자인의 본질',
     author: '엘런 쿠퍼',
     publisher: '에이콘출판사',
-    coverImage: 'https://image.yes24.com/momo/TopCate527/MidCate006/51918467.jpg',
+    coverImage:
+        'https://image.yes24.com/momo/TopCate527/MidCate006/51918467.jpg',
     description: '',
+    date: DateTime(2020, 12, 13),
   ),
   BookVo(
     title: '우리가 빛의 속도로 갈 수 없다면',
@@ -371,6 +411,7 @@ List<BookVo> myBooks = [
     publisher: '허블',
     coverImage: 'https://image.yes24.com/goods/74261416/XL',
     description: '',
+    date: DateTime(2020, 11, 28),
   ),
   BookVo(
     title: '달러구트 꿈 백화점',
@@ -378,13 +419,15 @@ List<BookVo> myBooks = [
     publisher: '팩토리나인',
     coverImage: 'https://image.yes24.com/goods/91065309/XL',
     description: '',
+    date: DateTime(2020, 11, 22),
   ),
-BookVo(
+  BookVo(
     title: '꽃을 보듯 너를 본다',
     author: '나태주',
     publisher: '지혜',
     coverImage: 'https://image.yes24.com/goods/24259730/XL',
     description: '',
+    date: DateTime(2020, 11, 20),
   ),
   BookVo(
     title: 'UX 원칙',
@@ -392,6 +435,7 @@ BookVo(
     publisher: '에이콘출판사',
     coverImage: 'https://image.yes24.com/goods/80391112/XL',
     description: '',
+    date: DateTime(2020, 11, 21),
   ),
   BookVo(
     title: '젊은 베르테르의 슬픔',
@@ -399,6 +443,7 @@ BookVo(
     publisher: '믿음사',
     coverImage: 'https://image.yes24.com/goods/17386/XL',
     description: '',
+    date: DateTime(2020, 11, 16),
   ),
   BookVo(
     title: '이것이 UX/UI 디자인이다',
@@ -406,13 +451,16 @@ BookVo(
     publisher: '위키북스',
     coverImage: 'https://image.yes24.com/goods/90865667/XL',
     description: '',
+    date: DateTime(2020, 11, 13),
   ),
   BookVo(
     title: 'UX 디자인 7가지 비밀',
     author: '박지수, 김헌',
     publisher: '안그라픽스',
-    coverImage: 'https://image.yes24.com/momo/TopCate243/MidCate009/24281500.jpg',
+    coverImage:
+        'https://image.yes24.com/momo/TopCate243/MidCate009/24281500.jpg',
     description: '',
+    date: DateTime(2020, 11, 8),
   ),
   BookVo(
     title: '함께 자라기',
@@ -420,5 +468,6 @@ BookVo(
     publisher: '인사이트',
     coverImage: 'https://image.yes24.com/goods/67350256/XL',
     description: '',
+    date: DateTime(2020, 9, 1),
   ),
 ];
