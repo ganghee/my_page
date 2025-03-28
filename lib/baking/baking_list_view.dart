@@ -1,71 +1,138 @@
-part of 'baking_view.dart';
+part of 'baking_screen.dart';
 
-Widget bakingListView({required ScrollController scrollController}) {
-  void onDragUpdate(DragUpdateDetails details) {
-    scrollController.jumpTo(
-      scrollController.offset - details.delta.dx,
+class _BakingListView extends StatelessWidget {
+  final bakingController = Get.find<BakingController>();
+
+  @override
+  Widget build(BuildContext context) {
+    Get.put(BakingListScrollController());
+
+    return Align(
+      alignment: Alignment(-0.8, isPortraitMode(context) ? -0.2 : 0.3),
+      child: Container(
+        width: screenWidth(context) / (isPortraitMode(context) ? 1 : 2),
+        height: screenHeight(context) / 4,
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _arrowButton(
+              icon: Icons.arrow_back_ios_rounded,
+              onTap: () {
+                final focusIndex = bakingController.focusIndex.value;
+                if (focusIndex == 0) return;
+                bakingController.changeFocusIndex(focusIndex - 1);
+              },
+            ),
+            _breadItemsView(context: context),
+            _arrowButton(
+              icon: Icons.arrow_forward_ios_rounded,
+              onTap: () {
+                final focusIndex = bakingController.focusIndex.value;
+                if (focusIndex == bakings.length - 1) return;
+                bakingController.changeFocusIndex(focusIndex + 1);
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  return Align(
-    alignment: Alignment(-0.8, 0.3),
-    child: Builder(
-      builder: (context) {
-        return Container(
-          width: MediaQuery.of(context).size.width / 2,
-          height: MediaQuery.of(context).size.height / 4,
-          alignment: Alignment.center,
-          color: Colors.orange,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Icon(
-                Icons.arrow_back_ios,
-                size: 20,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 2 - 80,
-                child: GestureDetector(
-                  onPanUpdate: onDragUpdate,
-                  child: ListView(
-                    controller: scrollController,
-                    scrollDirection: Axis.horizontal,
-                    children: List.generate(5, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Get.find<BakingController>().changeFocusIndex(index);
-                        },
-                        child: GetBuilder(
-                          init: BakingController(),
-                          builder: (value) => SizedBox(
-                            width: 50,
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: bakings[index].color,
-                                border: Border.all(
-                                  color: value.focusIndex == index
-                                      ? Colors.white
-                                      : Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              child: Text('Item $index'),
-                            ),
+  Widget _breadItemsView({required BuildContext context}) {
+    final breadItemWidth =
+        screenWidth(context) / (isPortraitMode(context) ? 10 : 14);
+    final bakingListScrollController = Get.find<BakingListScrollController>();
+    bakingListScrollController.moveFocusIndex(breadItemWidth + 10);
+    return SizedBox(
+      width: screenWidth(context) / (isPortraitMode(context) ? 1 : 2) - 80,
+      height: screenHeight(context) / 7,
+      child: GestureDetector(
+        onPanUpdate: bakingListScrollController.onDragUpdate,
+        child: ListView.separated(
+          controller: bakingListScrollController.scrollController,
+          scrollDirection: Axis.horizontal,
+          itemCount: bakings.length,
+          separatorBuilder: (BuildContext context, int index) =>
+              SizedBox(width: isPortraitMode(context) ? 20 : 40),
+          itemBuilder: (BuildContext context, int index) {
+            return GestureDetector(
+              onTap: () {
+                bakingController.changeFocusIndex(index);
+              },
+              child: GetBuilder(
+                init: BakingController(),
+                builder: (bakingController) {
+                  return Container(
+                    padding: EdgeInsets.only(
+                      bottom: 10,
+                      top: 10,
+                      left: isPortraitMode(context) ? 10 : 0,
+                      right: isPortraitMode(context) ? 10 : 0,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: bakingController.focusIndex.value == index
+                          ? Colors.white
+                          : Colors.transparent,
+                      border: bakingController.focusIndex.value == index
+                          ? Border.all(
+                              color: Colors.brown,
+                              width: 2,
+                            )
+                          : null,
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Image.network(
+                            bakings[index].imageUrl,
+                            fit: BoxFit.contain,
+                            width: breadItemWidth,
+                            height: breadItemWidth,
                           ),
                         ),
-                      );
-                    }),
-                  ),
-                ),
+                        // SizedBox(height: index == 1 || index == 2 ? 20 : 0),
+                        Text(
+                          bakings[index].name,
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-              Icon(
-                Icons.arrow_forward_ios,
-                size: 20,
-              ),
-            ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _arrowButton({
+    required IconData icon,
+    required Function() onTap,
+  }) {
+    return Flexible(
+      flex: 1,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(2),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.brown),
+            color: Colors.white,
+            shape: BoxShape.circle,
           ),
-        );
-      },
-    ),
-  );
+          child: Icon(
+            icon,
+            size: 20,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+    );
+  }
 }
