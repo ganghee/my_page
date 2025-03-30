@@ -8,7 +8,7 @@ enum ScrollState {
   end,
 }
 
-class MainScrollController extends GetxController {
+class BookScrollController extends GetxController {
   double _horizontalProgress = 0.0;
   ScrollState _isHorizontalScrollState = ScrollState.init;
   late final ScrollController verticalController = ScrollController();
@@ -25,10 +25,10 @@ class MainScrollController extends GetxController {
     if (pointerSignal is PointerScrollEvent) {
       final currentPosition = verticalController.offset; // 현재 위치
       // 스크롤 위치가 가로 스크롤 위치에 있을 때
+      // 아래로 스크롤 시
       if (pointerSignal.scrollDelta.dy > 0 &&
           currentPosition >= horizontalY &&
           currentPosition < horizontalY + horizontalHeight) {
-        // 아래로 스크롤 시
         if (_isHorizontalScrollState == ScrollState.init) {
           _isHorizontalScrollState = ScrollState.scrolling;
         }
@@ -43,18 +43,22 @@ class MainScrollController extends GetxController {
             _horizontalProgress = 0;
           }
 
+          // 가로 스크롤이 끝에 도달했을 때
           if (_horizontalProgress >
               bookScrollController.position.maxScrollExtent - 10) {
             isVerticalScrollable.value = true;
             _isHorizontalScrollState = ScrollState.end;
           }
         }
+        // 위로 스크롤 시
       } else if ((pointerSignal.scrollDelta.dy < 0 &&
           currentPosition <= horizontalY)) {
-        // 위로 스크롤 시
-        if (_isHorizontalScrollState == ScrollState.scrolling) {
+        if (_isHorizontalScrollState != ScrollState.init)  {
           _horizontalProgress +=
               pointerSignal.scrollDelta.dy * _horizontalScrollSpeed;
+          if(_isHorizontalScrollState == ScrollState.end) {
+            _isHorizontalScrollState = ScrollState.scrolling;
+          }
           // 가로 스크롤이 초기 상태로 되돌아 왔을 때
           if (_horizontalProgress < 0) {
             isVerticalScrollable.value = true;
@@ -66,14 +70,9 @@ class MainScrollController extends GetxController {
       if (currentPosition < horizontalY &&
           _isHorizontalScrollState == ScrollState.end) {
         _isHorizontalScrollState = ScrollState.scrolling;
-        await _fixScrollPosition(
-          horizontalY: horizontalY,
-        );
+        await _fixScrollPosition(horizontalY: horizontalY);
       }
-      if (_isHorizontalScrollState == ScrollState.end) {
-        bookScrollController
-            .jumpTo(bookScrollController.position.maxScrollExtent);
-      } else if (_isHorizontalScrollState == ScrollState.init) {
+      if (_isHorizontalScrollState == ScrollState.init) {
         bookScrollController.jumpTo(0);
       } else {
         bookScrollController.jumpTo(_horizontalProgress);
@@ -82,9 +81,7 @@ class MainScrollController extends GetxController {
   }
 
   // 스크롤 위치를 고정시키는 함수
-  _fixScrollPosition({
-    required double horizontalY,
-  }) async {
+  _fixScrollPosition({required double horizontalY}) async {
     isVerticalScrollable.value = false;
     verticalController.jumpTo(horizontalY);
     await Future.delayed(Duration(milliseconds: 5)); // 5ms 딜레이를 줘야 정상적으로 동작함
