@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:my/travel/travel_detail_vo.dart';
+import 'package:my/travel/model/travel_detail_vo.dart';
 
 class TravelDetailUIController extends GetxController {
   final listKey = GlobalKey<AnimatedListState>();
@@ -17,7 +17,7 @@ class TravelDetailUIController extends GetxController {
     super.onInit();
     scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      final maxInitItems = min(10, items.length);
+      final maxInitItems = min(3, items.length);
       await _addItemKeys();
       for (int i = 0; i < maxInitItems; i++) {
         // 리스트의 처음 10개 아이템은 스크롤 감지를 위해 visibleItems에 추가
@@ -39,6 +39,7 @@ class TravelDetailUIController extends GetxController {
     final List<TravelItemVo> travelItems = myTravelDetail
         .firstWhere((travel) => travel.travelId == travelId)
         .items;
+    items.clear();
     items.addAll(travelItems);
   }
 

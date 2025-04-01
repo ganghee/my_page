@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my/travel/model/travel_detail_vo.dart';
+import 'package:my/travel/model/travel_vo.dart';
 import 'package:my/travel/travel_detail_ui_controller.dart';
-import 'package:my/travel/travel_detail_vo.dart';
 import 'package:my/travel/travel_main_ui_controller.dart';
 import 'package:my/util/size.dart';
 
@@ -12,30 +13,38 @@ class TravelDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final travelMainUIController = Get.find<TravelMainUIController>();
+    final travelMainUIController =
+        Get.put(TravelMainUIController()); // todo 추후 find로 변경
     final travelDetailUIController = Get.put(TravelDetailUIController());
 
-    travelDetailUIController.setTravelItems(travelId);
     travelDetailUIController.changeScreenHeight(screenHeight(context));
+    travelDetailUIController.setTravelItems(travelId);
 
     return PopScope(
       onPopInvokedWithResult: (_, __) {
         travelMainUIController.onBeforeRoute();
       },
       child: Scaffold(
-        body: AnimatedList(
+        backgroundColor: Colors.white,
+        body: AnimatedList.separated(
           key: travelDetailUIController.listKey,
           controller: travelDetailUIController.scrollController,
           initialItemCount: travelDetailUIController.items.length,
           itemBuilder: (context, index, animation) {
-            if (index > travelDetailUIController.items.length - 1) {
-              return Container();
+            if (index >= travelDetailUIController.items.length) {
+              return SizedBox();
+            } else {
+              return itemView(
+                index: index,
+                animation: animation,
+                travelId: travelId,
+              );
             }
-            return itemView(
-              index: index,
-              animation: animation,
-            );
           },
+          separatorBuilder: (_, __, ___) => SizedBox(height: 40),
+          removedSeparatorBuilder: (_, __, ___) => SizedBox(height: 20),
+          shrinkWrap: true,
+          padding: const EdgeInsets.only(top: 20, bottom: 20),
         ),
       ),
     );
@@ -44,6 +53,7 @@ class TravelDetailScreen extends StatelessWidget {
   Widget itemView({
     required int index,
     required Animation<double> animation,
+    required int travelId,
   }) {
     final controller = Get.find<TravelDetailUIController>();
 
@@ -57,7 +67,30 @@ class TravelDetailScreen extends StatelessWidget {
             begin: Offset(0, 0.5),
             end: Offset(0, 0),
           ).animate(animation),
-          child: _travelItemView(controller.items[index]),
+          child: Column(
+            children: [
+              Visibility(
+                visible: index == 0,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 80),
+                  child: Text(
+                    myTravel
+                        .where(
+                          (travel) => travel.travelId == travelId,
+                        )
+                        .first
+                        .title,
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+              _travelItemView(controller.items[index]),
+            ],
+          ),
         ),
       ),
     );
@@ -66,7 +99,15 @@ class TravelDetailScreen extends StatelessWidget {
   Widget _travelItemView(TravelItemVo item) {
     switch (item.type) {
       case TravelDetailType.image:
-        return Image.network(item.description);
+        if (item.imageUrls.isNotEmpty) {
+          return _imageItemView(item);
+        } else {
+          return Image.network(
+            item.description,
+            fit: BoxFit.cover,
+          );
+        }
+
       case TravelDetailType.text:
         return Text(
           item.description,
@@ -74,5 +115,34 @@ class TravelDetailScreen extends StatelessWidget {
           textAlign: TextAlign.center,
         );
     }
+  }
+
+  Widget _imageItemView(TravelItemVo item) {
+    return Builder(
+      builder: (context) {
+        return SizedBox(
+          width: screenWidth(context) > 2000 ? 2000 : screenWidth(context),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: item.imageUrls
+                .map(
+                  (url) => Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Image.network(
+                        url,
+                        width: screenWidth(context) / item.imageUrls.length,
+                        height:
+                            screenHeight(context) * screenWidth(context) / 3000,
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
+    );
   }
 }
