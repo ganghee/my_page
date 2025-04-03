@@ -22,3 +22,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/images/jeju/
+    - assets/images/bangkok/
+    - assets/images/osaka/
