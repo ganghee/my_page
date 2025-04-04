@@ -55,10 +55,10 @@ class _BookBackgroundView extends StatelessWidget {
             30,
             (_) => Opacity(
               opacity: 0.5,
-              child: Image.asset(
-                'assets/images/book.png',
+              child: ImageView(
+                imageUrl: 'assets/images/book/book.png',
                 fit: BoxFit.cover,
-                repeat: ImageRepeat.repeat,
+                repeat: true,
               ),
             ),
           ),
@@ -121,8 +121,8 @@ class _BookItemViewState extends State<_BookItemView>
           position: _animation,
           child: Stack(
             children: [
-              Image.network(
-                widget.bookVo.coverImage,
+              ImageView(
+                imageUrl: widget.bookVo.coverImage,
                 width: bookHeight * 2 / 3,
                 height: bookHeight,
                 fit: BoxFit.cover,

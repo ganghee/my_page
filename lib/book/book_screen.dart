@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:my/book/book_background_scroll_controller.dart';
 import 'package:my/book/book_scroll_controller.dart';
 import 'package:my/book/book_vo.dart';
+import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
 import 'package:collection/collection.dart';
 
