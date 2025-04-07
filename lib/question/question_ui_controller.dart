@@ -1,27 +1,20 @@
+import 'dart:ui';
+
 import 'package:get/get.dart';
 
 class QuestionUIController extends GetxController {
   final RxInt selectedQuestionIndex = 0.obs;
-  final RxDouble positionX = 0.0.obs;
-  final RxDouble positionY = 0.0.obs;
+  final Rx<Offset> offset = Offset.zero.obs;
 
   void changeSelectedQuestionIndex(int index) {
     selectedQuestionIndex.value = index;
   }
 
-  void changePosition({
-    required double x,
-    required double y,
-  }) {
-    positionX.value += x;
-    positionY.value += y;
+  void changePosition({required Offset newOffset}) {
+    offset.value += newOffset;
   }
 
-  void initAnswerPosition({
-    required double x,
-    required double y,
-  }) {
-    positionX.value = x;
-    positionY.value = y;
+  void initAnswerPosition({required Offset newOffset}) {
+    offset.value = newOffset;
   }
 }

@@ -5,7 +5,6 @@ import 'package:my/question/question_ui_controller.dart';
 import 'package:my/question/question_vo.dart';
 import 'package:my/util/size.dart';
 
-
 class QuestionScreen extends StatelessWidget {
   const QuestionScreen({super.key});
 
@@ -23,8 +22,10 @@ class QuestionView extends StatelessWidget {
     final questionUIController = Get.put(QuestionUIController());
     final divide = isPortraitMode(context) ? 8 : 4;
     questionUIController.initAnswerPosition(
-      x: screenWidth(context) / 2 - screenHeight(context) / divide,
-      y: screenHeight(context) / 2 - screenHeight(context) / divide,
+      newOffset: Offset(
+        screenWidth(context) / 2 - screenHeight(context) / divide,
+        screenHeight(context) / 2 - screenHeight(context) / divide,
+      ),
     );
 
     return Stack(
@@ -55,15 +56,16 @@ class QuestionView extends StatelessWidget {
 
     return ListWheelScrollView.useDelegate(
       // 아이템 픽셀 높이
-      itemExtent: screenHeight(context) / (isPortraitMode(context) ? 10: 8),
+      itemExtent: screenHeight(context) / (isPortraitMode(context) ? 10 : 8),
       childDelegate: ListWheelChildBuilderDelegate(
         builder: (context, index) {
           return SizedBox(
             width: double.infinity,
             child: Text(
-              myQuestion[index % myQuestion.length].question,
+              myQuestion[index % myQuestion.length].question.tr,
               style: GoogleFonts.blackHanSans(
-                fontSize: screenHeight(context) / (isPortraitMode(context) ? 13: 10),
+                fontSize:
+                    screenHeight(context) / (isPortraitMode(context) ? 13 : 10),
                 color: Colors.white,
               ),
             ),
@@ -84,16 +86,13 @@ class QuestionView extends StatelessWidget {
     final controller = Get.find<QuestionUIController>();
     return Obx(
       () => Positioned(
-        left: controller.positionX.value,
-        top: controller.positionY.value,
+        left: controller.offset.value.dx,
+        top: controller.offset.value.dy,
         child: MouseRegion(
           cursor: SystemMouseCursors.grab,
           child: GestureDetector(
             onPanUpdate: (details) {
-              controller.changePosition(
-                x: details.delta.dx,
-                y: details.delta.dy,
-              );
+              controller.changePosition(newOffset: details.delta);
             },
             child: Container(
               width: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
@@ -114,9 +113,9 @@ class QuestionView extends StatelessWidget {
               child: GestureDetector(
                 onTap: () {
                   final index = controller.selectedQuestionIndex.value;
-                  final childScreen = myQuestion[index].childScreen;
-                  if (childScreen != null) {
-                    Get.to(() => childScreen);
+                  final childPath = myQuestion[index].path;
+                  if (childPath != null) {
+                    Get.toNamed(childPath);
                   }
                 },
                 child: Center(
