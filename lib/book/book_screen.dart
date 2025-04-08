@@ -20,8 +20,8 @@ class BookScreen extends StatefulWidget {
 
 class _BookScreenState extends State<BookScreen> {
   final GlobalKey _horizontalKey = GlobalKey();
-  double _horizontalY = 0; // 가로 스크롤 위치
-  double _horizontalHeight = 0; // 가로 스크롤 높이
+  double _horizontalY = 0; // 세로 스크롤 position에서 BooksScrollView 시작 위치
+  double _horizontalHeight = 0; // BooksScrollView 높이
 
   @override
   void initState() {
@@ -55,7 +55,7 @@ class _BookScreenState extends State<BookScreen> {
             physics: controller.isVerticalScrollable.value
                 ? null
                 : const NeverScrollableScrollPhysics(),
-            child: BooksScrollView(horizontalKey: _horizontalKey),
+            child: _BooksScrollView(horizontalKey: _horizontalKey),
           ),
         ),
       ),

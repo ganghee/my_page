@@ -1,41 +1,38 @@
 part of 'book_screen.dart';
 
-class BooksScrollView extends StatelessWidget {
+class _BooksScrollView extends StatelessWidget {
   final GlobalKey horizontalKey;
 
-  const BooksScrollView({
-    super.key,
-    required this.horizontalKey,
-  });
+  const _BooksScrollView({required this.horizontalKey});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.black,
-        height: screenHeight(context),
-        child: Stack(
-          children: [
-            _BookBackgroundView(),
-            GridView(
-              key: horizontalKey,
-              physics: const NeverScrollableScrollPhysics(),
-              scrollDirection: Axis.horizontal,
-              controller: Get.find<BookScrollController>().bookScrollController,
-              padding: const EdgeInsets.symmetric(horizontal: 60),
-              shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio: 0.7,
-              ),
-              children: myBooks
-                  .mapIndexed(
-                    (index, bookVo) =>
-                        _BookItemView(bookVo: bookVo, index: index),
-                  )
-                  .toList(),
+      color: Colors.black,
+      height: screenHeight(context),
+      child: Stack(
+        children: [
+          _BookBackgroundView(),
+          GridView(
+            key: horizontalKey,
+            physics: const NeverScrollableScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            controller: Get.find<BookScrollController>().bookScrollController,
+            padding: const EdgeInsets.symmetric(horizontal: 60),
+            shrinkWrap: true,
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              childAspectRatio: 0.7,
             ),
-          ],
-        ),
+            children: myBooks
+                .mapIndexed(
+                  (index, bookVo) =>
+                      _BookItemView(bookVo: bookVo, index: index),
+                )
+                .toList(),
+          ),
+        ],
+      ),
     );
   }
 }

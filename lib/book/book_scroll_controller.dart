@@ -37,7 +37,7 @@ class BookScrollController extends GetxController {
               pointerSignal.scrollDelta.dy * _horizontalScrollSpeed;
 
           if (isVerticalScrollable.value) {
-            await _fixScrollPosition(horizontalY: horizontalY);
+            _fixScrollPosition(horizontalY: horizontalY);
           }
           if (_horizontalProgress < 0) {
             _horizontalProgress = 0;
@@ -50,13 +50,14 @@ class BookScrollController extends GetxController {
             _isHorizontalScrollState = ScrollState.end;
           }
         }
+
         // 위로 스크롤 시
       } else if ((pointerSignal.scrollDelta.dy < 0 &&
           currentPosition <= horizontalY)) {
-        if (_isHorizontalScrollState != ScrollState.init)  {
+        if (_isHorizontalScrollState != ScrollState.init) {
           _horizontalProgress +=
               pointerSignal.scrollDelta.dy * _horizontalScrollSpeed;
-          if(_isHorizontalScrollState == ScrollState.end) {
+          if (_isHorizontalScrollState == ScrollState.end) {
             _isHorizontalScrollState = ScrollState.scrolling;
           }
           // 가로 스크롤이 초기 상태로 되돌아 왔을 때
@@ -67,11 +68,13 @@ class BookScrollController extends GetxController {
           }
         }
       }
+
       if (currentPosition < horizontalY &&
           _isHorizontalScrollState == ScrollState.end) {
         _isHorizontalScrollState = ScrollState.scrolling;
-        await _fixScrollPosition(horizontalY: horizontalY);
+        _fixScrollPosition(horizontalY: horizontalY);
       }
+
       if (_isHorizontalScrollState == ScrollState.init) {
         bookScrollController.jumpTo(0);
       } else {
@@ -81,10 +84,15 @@ class BookScrollController extends GetxController {
   }
 
   // 스크롤 위치를 고정시키는 함수
-  _fixScrollPosition({required double horizontalY}) async {
+  _fixScrollPosition({required double horizontalY}) {
     isVerticalScrollable.value = false;
     verticalController.jumpTo(horizontalY);
-    await Future.delayed(Duration(milliseconds: 5)); // 5ms 딜레이를 줘야 정상적으로 동작함
-    verticalController.jumpTo(horizontalY);
+  }
+
+  @override
+  void onClose() {
+    verticalController.dispose();
+    bookScrollController.dispose();
+    super.onClose();
   }
 }
