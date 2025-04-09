@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:my/travel/model/travel_vo.dart';
 import 'package:my/travel/travel_main_ui_controller.dart';
 import 'package:my/travel/travel_route_painter.dart';
+import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
 
 part 'travel_list_view.dart';
@@ -29,7 +30,9 @@ class TravelScreen extends StatelessWidget {
   }
 
   Widget _backgroundView(BuildContext context) {
-    final travelScrollController = Get.put(TravelMainUIController());
+    Get.lazyPut<TravelMainUIController>(() => TravelMainUIController());
+    final travelScrollController =
+        Get.find<TravelMainUIController>();
 
     return Obx(
       () => AnimatedSwitcher(
@@ -37,9 +40,10 @@ class TravelScreen extends StatelessWidget {
         transitionBuilder: (Widget child, Animation<double> animation) {
           return FadeTransition(opacity: animation, child: child);
         },
-        child: Image.network(
+        child: ImageView(
           key: ValueKey(travelScrollController.hoveredIndex.value),
-          myTravel[travelScrollController.hoveredIndex.value].imageUrl,
+          imageUrl:
+              myTravel[travelScrollController.hoveredIndex.value].imageUrl,
           color: Colors.black.withAlpha(180),
           colorBlendMode: BlendMode.darken,
           width: screenWidth(context),

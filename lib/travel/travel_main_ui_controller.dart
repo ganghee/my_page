@@ -26,12 +26,12 @@ class TravelMainUIController extends GetxController
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Get.to(
-          () => TravelDetailScreen(
-            travelId: myTravel[hoveredIndex.value].travelId,
-          ),
+          () => TravelDetailScreen(),
+          routeName: '/travel/${myTravel[hoveredIndex.value].travelId}',
+          arguments: myTravel[hoveredIndex.value].travelId,
           duration: Duration(milliseconds: 1200),
           transition: Transition.downToUp,
-          fullscreenDialog: true, //
+          fullscreenDialog: true,
           curve: Curves.fastOutSlowIn,
         );
       }
@@ -81,7 +81,6 @@ class TravelMainUIController extends GetxController
   @override
   void onClose() {
     scrollController.dispose();
-    _animationController.dispose();
     super.onClose();
   }
 }

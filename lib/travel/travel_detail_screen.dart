@@ -4,18 +4,18 @@ import 'package:my/travel/model/travel_detail_vo.dart';
 import 'package:my/travel/model/travel_vo.dart';
 import 'package:my/travel/travel_detail_ui_controller.dart';
 import 'package:my/travel/travel_main_ui_controller.dart';
+import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
 
 class TravelDetailScreen extends StatelessWidget {
-  final int travelId;
-
-  const TravelDetailScreen({super.key, required this.travelId});
+  const TravelDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final travelMainUIController =
         Get.put(TravelMainUIController()); // todo 추후 find로 변경
     final travelDetailUIController = Get.put(TravelDetailUIController());
+    final travelId = Get.arguments ?? int.parse(Get.parameters['travelId'] ?? '0');
 
     travelDetailUIController.changeScreenHeight(screenHeight(context));
     travelDetailUIController.setTravelItems(travelId);
@@ -102,8 +102,8 @@ class TravelDetailScreen extends StatelessWidget {
         if (item.imageUrls.isNotEmpty) {
           return _imageItemView(item);
         } else {
-          return Image.network(
-            item.description,
+          return ImageView(
+            imageUrl: item.description,
             fit: BoxFit.cover,
           );
         }
@@ -121,7 +121,7 @@ class TravelDetailScreen extends StatelessWidget {
     return Builder(
       builder: (context) {
         return SizedBox(
-          width: screenWidth(context) > 2000 ? 2000 : screenWidth(context),
+          width: screenWidth(context) > 1000 ? 1000 : screenWidth(context),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: item.imageUrls
@@ -129,12 +129,11 @@ class TravelDetailScreen extends StatelessWidget {
                   (url) => Flexible(
                     child: Padding(
                       padding: const EdgeInsets.all(8),
-                      child: Image.network(
-                        url,
+                      child: ImageView(
+                        imageUrl: url,
                         width: screenWidth(context) / item.imageUrls.length,
-                        height:
-                            screenHeight(context) * screenWidth(context) / 3000,
-                        fit: BoxFit.fitWidth,
+                        cacheHeight: 1000,
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),

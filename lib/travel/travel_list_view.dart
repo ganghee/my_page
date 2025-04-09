@@ -69,8 +69,8 @@ class _TravelListView extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.network(
-                    myTravel[index % myTravel.length].imageUrl,
+                  ImageView(
+                    imageUrl: myTravel[index % myTravel.length].imageUrl,
                     fit: BoxFit.cover,
                   ),
                   Align(
