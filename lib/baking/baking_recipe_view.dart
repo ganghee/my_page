@@ -16,7 +16,7 @@ class _BakingRecipeView extends StatelessWidget {
           child: Builder(
             builder: (context) {
               final ingredients =
-                  bakings[controller.focusIndex].ingredients.split(', ');
+                  bakings[controller.focusIndex].ingredients.tr.split(', ');
               return Container(
                 width: screenWidth(context) / (isPortraitMode(context) ? 1 : 3),
                 height:
@@ -29,7 +29,12 @@ class _BakingRecipeView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('재료', style: TextStyle(fontSize: 20)),
+                          Text(
+                            '재료'.tr,
+                            style: TextStyle(fontSize: 20),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
                           SizedBox(height: 20),
                           Flexible(
                             flex: 1,
@@ -75,17 +80,18 @@ class _BakingRecipeView extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('레시피', style: TextStyle(fontSize: 20)),
+          Text('레시피'.tr, style: TextStyle(fontSize: 20)),
           SizedBox(height: 20),
           Flexible(
             flex: 1,
             child: ListView.separated(
               shrinkWrap: true,
               itemBuilder: (_, int index) {
+                final translationKey = '${bakings[focusIndex].name}recipe$index';
                 return bakings[focusIndex].recipe.isEmpty
                     ? SizedBox()
                     : Text(
-                        '${index + 1}. ${bakings[focusIndex].recipe[index]}',
+                        '${index + 1}. ${translationKey.tr}',
                       );
               },
               separatorBuilder: (_, __) {

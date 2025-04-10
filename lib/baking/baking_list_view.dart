@@ -82,13 +82,14 @@ class _BakingListView extends StatelessWidget {
                             )
                           : null,
                     ),
+                    width: breadItemWidth * 2.5,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flexible(
                           flex: 1,
-                          child: Image.network(
-                            bakings[index].imageUrl,
+                          child: ImageView(
+                            imageUrl: bakings[index].imageUrl,
                             fit: BoxFit.contain,
                             width: breadItemWidth,
                             height: breadItemWidth,
@@ -96,8 +97,9 @@ class _BakingListView extends StatelessWidget {
                         ),
                         // SizedBox(height: index == 1 || index == 2 ? 20 : 0),
                         Text(
-                          bakings[index].name,
+                          bakings[index].name.tr,
                           style: TextStyle(color: Colors.black),
+                          textAlign: TextAlign.center,
                         ),
                       ],
                     ),

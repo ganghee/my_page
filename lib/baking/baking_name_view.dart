@@ -18,7 +18,7 @@ class _BakingNameView extends StatelessWidget {
           child: Opacity(
             opacity: controller.opacityAnimation.value,
             child: Text(
-              controller.bakingName,
+              controller.bakingName.tr,
               style: GoogleFonts.bagelFatOne().copyWith(
                 fontSize: 40,
                 color: Colors.brown,
