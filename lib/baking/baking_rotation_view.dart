@@ -33,10 +33,11 @@ class _BakingRotationView extends StatelessWidget {
               );
             },
             child: Obx(
-              () => Image.network(
-                bakingController.currentBakingVo.value.imageUrl,
+              () => ImageView(
+                imageUrl: bakingController.currentBakingVo.value.imageUrl,
                 width: imageSize,
                 height: imageSize,
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -52,10 +53,11 @@ class _BakingRotationView extends StatelessWidget {
               );
             },
             child: Obx(
-              () => Image.network(
-                bakingController.nextBakingVo.value.imageUrl,
+              () => ImageView(
+                imageUrl: bakingController.nextBakingVo.value.imageUrl,
                 width: imageSize,
                 height: imageSize,
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -71,10 +73,11 @@ class _BakingRotationView extends StatelessWidget {
               );
             },
             child: Obx(
-              () => Image.network(
-                bakingController.beforeBakingVo.value.imageUrl,
+              () => ImageView(
+                imageUrl: bakingController.beforeBakingVo.value.imageUrl,
                 width: imageSize,
                 height: imageSize,
+                fit: BoxFit.contain,
               ),
             ),
           ),
