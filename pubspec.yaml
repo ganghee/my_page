@@ -25,6 +25,7 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/icon/
     - assets/images/jeju/
     - assets/images/bangkok/
     - assets/images/osaka/
