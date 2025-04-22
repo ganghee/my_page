@@ -43,7 +43,6 @@ class _BakingListView extends StatelessWidget {
     final breadItemWidth =
         screenWidth(context) / (isPortraitMode(context) ? 10 : 14);
     final bakingListScrollController = Get.find<BakingListScrollController>();
-    bakingListScrollController.moveFocusIndex(breadItemWidth + 10);
     return SizedBox(
       width: screenWidth(context) / (isPortraitMode(context) ? 1 : 2) - 80,
       height: screenHeight(context) / 7,
@@ -82,7 +81,7 @@ class _BakingListView extends StatelessWidget {
                             )
                           : null,
                     ),
-                    width: breadItemWidth * 2.5,
+                    width: breadItemWidth * 1.6,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [

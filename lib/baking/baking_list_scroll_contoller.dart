@@ -2,14 +2,20 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my/baking/baking_controller.dart';
 
+import 'baking_vo.dart';
+
 class BakingListScrollController extends GetxController {
   final ScrollController scrollController = ScrollController();
 
-  moveFocusIndex(double itemWidth) {
+  @override
+  void onInit() {
+    super.onInit();
     Get.find<BakingController>().focusIndex.stream.listen(
       (index) {
         final double maxScrollExtent =
             scrollController.position.maxScrollExtent;
+        final itemWidth =
+            scrollController.position.maxScrollExtent / (bakings.length - 1);
         double scrollExtent = index * itemWidth;
 
         /// 스크롤 범위를 벗어나지 않도록 처리
