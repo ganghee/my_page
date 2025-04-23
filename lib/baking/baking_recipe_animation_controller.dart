@@ -11,6 +11,8 @@ class BakingRecipeAnimationController extends GetxController
   late final Animation<double> animation =
       Tween<double>(begin: 2.2, end: 0.8).animate(_animationController);
   int focusIndex = 0;
+  late final Worker _focusIndexWorker;
+  bool _isPortrait = false;
 
   @override
   void onInit() {
@@ -20,16 +22,27 @@ class BakingRecipeAnimationController extends GetxController
       update();
     });
 
-    ever(Get.find<BakingController>().focusIndex, (int index) {
-      _animationController.reverse().then((_) {
+    _focusIndexWorker =
+        ever(Get.find<BakingController>().focusIndex, (int index) async {
+      if (_isPortrait) {
         focusIndex = index;
-        _animationController.forward();
-      });
+        update();
+      } else {
+        _animationController.reverse().then((_) async {
+          focusIndex = index;
+          _animationController.forward();
+        });
+      }
     });
+  }
+
+  setPortraitMode(bool isPortrait) {
+    _isPortrait = isPortrait;
   }
 
   @override
   void onClose() {
+    _focusIndexWorker.dispose();
     _animationController.dispose();
     super.onClose();
   }

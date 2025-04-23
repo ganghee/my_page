@@ -8,6 +8,7 @@ class _BakingRecipeView extends StatelessWidget {
     return GetBuilder(
       init: BakingRecipeAnimationController(),
       builder: (controller) {
+        controller.setPortraitMode(isPortraitMode(context));
         final alignment = isPortraitMode(context)
             ? Alignment(0, 1)
             : Alignment(controller.animation.value, -0.3);
@@ -15,8 +16,6 @@ class _BakingRecipeView extends StatelessWidget {
           alignment: alignment,
           child: Builder(
             builder: (context) {
-              final ingredients =
-                  bakings[controller.focusIndex].ingredients.tr.split(', ');
               return Container(
                 width: screenWidth(context) / (isPortraitMode(context) ? 1 : 3),
                 height:
@@ -24,44 +23,7 @@ class _BakingRecipeView extends StatelessWidget {
                 padding: EdgeInsets.all(40),
                 child: Row(
                   children: [
-                    Expanded(
-                      flex: 1,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '재료'.tr,
-                            style: TextStyle(fontSize: 20),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                          SizedBox(height: 20),
-                          Flexible(
-                            flex: 1,
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemBuilder: (_, int index) {
-                                return ingredients.isEmpty
-                                    ? SizedBox()
-                                    : Container(
-                                        padding: EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          border:
-                                              Border.all(color: Colors.brown),
-                                          color: Colors.white,
-                                        ),
-                                        child: Text(ingredients[index]),
-                                      );
-                              },
-                              separatorBuilder: (_, __) => SizedBox(height: 8),
-                              itemCount: ingredients.length,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    _ingredientsView(controller.focusIndex),
                     SizedBox(width: 20),
                     _recipeView(focusIndex: controller.focusIndex),
                   ],
@@ -71,6 +33,46 @@ class _BakingRecipeView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget _ingredientsView(int focusIndex) {
+    final ingredients = bakings[focusIndex].ingredients.tr.split(', ');
+    return Expanded(
+      flex: 1,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '재료'.tr,
+            style: TextStyle(fontSize: 20),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          SizedBox(height: 20),
+          Flexible(
+            flex: 1,
+            child: ListView.separated(
+              shrinkWrap: true,
+              itemBuilder: (_, int index) {
+                return ingredients.isEmpty
+                    ? SizedBox()
+                    : Container(
+                        padding: EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.brown),
+                          color: Colors.white,
+                        ),
+                        child: Text(ingredients[index]),
+                      );
+              },
+              separatorBuilder: (_, __) => SizedBox(height: 8),
+              itemCount: ingredients.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -87,7 +89,8 @@ class _BakingRecipeView extends StatelessWidget {
             child: ListView.separated(
               shrinkWrap: true,
               itemBuilder: (_, int index) {
-                final translationKey = '${bakings[focusIndex].name}recipe$index';
+                final translationKey =
+                    '${bakings[focusIndex].name}recipe$index';
                 return bakings[focusIndex].recipe.isEmpty
                     ? SizedBox()
                     : Text(
