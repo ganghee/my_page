@@ -1,17 +1,17 @@
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:my/baking/baking_vo.dart';
 
 class BakingController extends GetxController {
-  int focusIndex = 0;
-  BakingVo nextBakingVo = bakings[1];
-  BakingVo currentBakingVo = bakings[0];
-  BakingVo beforeBakingVo = bakings[2];
-  double animationValue = 0;
+  final RxInt focusIndex = 0.obs;
+  final nextBakingVo = bakings[1].obs;
+  final currentBakingVo = bakings[0].obs;
+  final beforeBakingVo = bakings[2].obs;
+  double _animationValue = 0;
+  final _part = 1 / bakings.length;
 
   changeFocusIndex(int index) {
-    if (focusIndex == index) return;
-    focusIndex = index;
+    if (focusIndex.value == index) return;
+    focusIndex.value = index;
     update();
   }
 
@@ -19,41 +19,41 @@ class BakingController extends GetxController {
     required double currentAnimationValue,
     required bool isForward,
   }) {
-    if(currentAnimationValue == 0.8 || currentAnimationValue == 0) {
-      animationValue = currentAnimationValue;
+    if (currentAnimationValue == _part * (bakings.length - 1) ||
+        currentAnimationValue == 0) {
+      _animationValue = currentAnimationValue;
       return;
     }
+    // when clockwise rotation
     if (isForward) {
-      if (currentAnimationValue > 0 && animationValue == 0) {
-        animationValue = currentAnimationValue;
-        update();
-      } else if (currentAnimationValue > 0.2 && animationValue <= 0.2) {
-        animationValue = currentAnimationValue;
-        update();
-      } else if (currentAnimationValue > 0.4 && animationValue <= 0.4) {
-        animationValue = currentAnimationValue;
-        currentBakingVo = bakings[3];
-        update();
-      } else if (currentAnimationValue > 0.6 && animationValue <= 0.6) {
-        animationValue = currentAnimationValue;
-        nextBakingVo = bakings[4];
-        update();
-      } else if (currentAnimationValue == 0.8) {
-        animationValue = currentAnimationValue;
+      for (int i = 0; i < bakings.length - 1; i++) {
+        if (currentAnimationValue > _part * i && _animationValue <= _part * i) {
+          _animationValue = currentAnimationValue;
+          if (i % 3 == 2) {
+            currentBakingVo.value = bakings[i + 1];
+          } else if (i % 3 == 0 && i != 0) {
+            nextBakingVo.value = bakings[i + 1];
+          } else {
+            beforeBakingVo.value = bakings[i + 1];
+          }
+          update();
+          break;
+        }
       }
-    } else {
-      if (currentAnimationValue < 0.2 && animationValue >= 0.2) {
-        animationValue = currentAnimationValue;
-        currentBakingVo = bakings[0];
-        update();
-      } else if (currentAnimationValue < 0.4 && animationValue >= 0.4) {
-        animationValue = currentAnimationValue;
-        nextBakingVo = bakings[1];
-        update();
-      } else if (currentAnimationValue < 0.6 && animationValue >= 0.6) {
-        animationValue = currentAnimationValue;
-      } else if (currentAnimationValue < 0.8 && animationValue == 0.8) {
-        animationValue = currentAnimationValue;
+    } else { // when counter clockwise rotation
+      for (int i = 1; i < bakings.length; i++) {
+        if (currentAnimationValue < _part * i && _animationValue >= _part * i) {
+          _animationValue = currentAnimationValue;
+          if (i % 3 == 2) {
+            nextBakingVo.value = bakings[i - 1];
+          } else if (i % 3 == 1) {
+            currentBakingVo.value = bakings[i - 1];
+          } else {
+            beforeBakingVo.value = bakings[i - 1];
+          }
+          update();
+          break;
+        }
       }
     }
   }

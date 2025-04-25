@@ -8,6 +8,7 @@ import 'package:my/baking/baking_list_scroll_contoller.dart';
 import 'package:my/baking/baking_recipe_animation_controller.dart';
 import 'package:my/baking/baking_rotation_animation_controller.dart';
 import 'package:my/baking/baking_vo.dart';
+import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
 
 import 'baking_controller.dart';
@@ -31,14 +32,17 @@ class BakingScreen extends StatelessWidget {
       body: SizedBox(
         width: screenWidth(context),
         height: screenHeight(context),
-        child: Stack(
-          children: [
-            _backgroundView(context),
-            _BakingRotationView(),
-            _BakingNameView(),
-            _BakingRecipeView(),
-            _BakingListView(),
-          ],
+        child: Hero(
+          tag: 'answer',
+          child: Stack(
+            children: [
+              _backgroundView(context),
+              _BakingRotationView(),
+              _BakingNameView(),
+              _BakingRecipeView(),
+              _BakingListView(),
+            ],
+          ),
         ),
       ),
     );
@@ -50,10 +54,15 @@ class BakingScreen extends StatelessWidget {
         GetBuilder(
           init: BakingBackgroundColorController(),
           builder: (controller) {
-            return Container(
-              width: screenWidth(context),
-              height: screenHeight(context),
-              color: controller.colorAnimation.value ?? Colors.white,
+            return AnimatedBuilder(
+              animation: controller.colorAnimation,
+              builder: (BuildContext context, Widget? child) {
+                return Container(
+                  width: screenWidth(context),
+                  height: screenHeight(context),
+                  color: controller.colorAnimation.value ?? Colors.white,
+                );
+              },
             );
           },
         ),
