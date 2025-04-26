@@ -3,42 +3,43 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my/question/question_ui_controller.dart';
 import 'package:my/question/question_vo.dart';
+import 'package:my/travel/model/travel_vo.dart';
+import 'package:my/travel/travel_main_ui_controller.dart';
+import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
+import 'package:my/util/translation_floating_button.dart';
 
 class QuestionScreen extends StatelessWidget {
   const QuestionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return QuestionView();
-  }
-}
-
-class QuestionView extends StatelessWidget {
-  const QuestionView({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final questionUIController = Get.put(QuestionUIController());
+    final controller = Get.put(QuestionUIController());
     final divide = isPortraitMode(context) ? 8 : 4;
-    questionUIController.initAnswerPosition(
-      newOffset: Offset(
-        screenWidth(context) / 2 - screenHeight(context) / divide,
-        screenHeight(context) / 2 - screenHeight(context) / divide,
-      ),
-    );
+    if (controller.offset.value == Offset.zero) {
+      controller.initAnswerPosition(
+        newOffset: Offset(
+          screenWidth(context) / 2 - screenHeight(context) / divide,
+          screenHeight(context) / 2 - screenHeight(context) / divide,
+        ),
+      );
+    }
 
-    return Stack(
-      children: [
-        _backgroundView(context),
-        _questionsView(context),
-        _floatingAnswerView(context),
-      ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          _backgroundView(context),
+          _questionsView(context),
+          _floatingAnswerView(),
+        ],
+      ),
+      floatingActionButton: TranslationFloatingButton(),
     );
   }
 
   Widget _backgroundView(BuildContext context) {
-    final controller = Get.find<QuestionUIController>();
+    final controller = Get.put(QuestionUIController());
+
     return Obx(
       () => SizedBox(
         width: screenWidth(context),
@@ -52,21 +53,56 @@ class QuestionView extends StatelessWidget {
   }
 
   Widget _questionsView(BuildContext context) {
-    final controller = Get.find<QuestionUIController>();
+    final controller = Get.put(QuestionUIController());
 
     return ListWheelScrollView.useDelegate(
       // 아이템 픽셀 높이
       itemExtent: screenHeight(context) / (isPortraitMode(context) ? 10 : 8),
       childDelegate: ListWheelChildBuilderDelegate(
         builder: (context, index) {
+          final focusedIndex = index % myQuestion.length;
           return SizedBox(
             width: double.infinity,
-            child: Text(
-              myQuestion[index % myQuestion.length].question.tr,
-              style: GoogleFonts.blackHanSans(
-                fontSize:
-                    screenHeight(context) / (isPortraitMode(context) ? 13 : 10),
-                color: Colors.white,
+            child: GestureDetector(
+              onTap: () {
+                final childPath = myQuestion[focusedIndex].path;
+                if (childPath != null) {
+                  Get.to(
+                    myQuestion[focusedIndex].answerScreen,
+                    routeName: childPath,
+                    transition: Transition.fadeIn,
+                    duration: Duration(milliseconds: 500),
+                  );
+                }
+              },
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      myQuestion[focusedIndex].question.tr,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.blackHanSans(
+                        fontSize: screenHeight(context) /
+                            (isPortraitMode(context) ? 13 : 10),
+                        height: 0.9,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Visibility(
+                    visible: myQuestion[focusedIndex].answerScreen != null,
+                    child: Text(
+                      '[열기]'.tr,
+                      style: GoogleFonts.blackHanSans(
+                        fontSize: screenHeight(context) /
+                            (isPortraitMode(context) ? 39 : 30),
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -82,8 +118,9 @@ class QuestionView extends StatelessWidget {
     );
   }
 
-  _floatingAnswerView(BuildContext context) {
-    final controller = Get.find<QuestionUIController>();
+  _floatingAnswerView() {
+    final controller = Get.put(QuestionUIController());
+
     return Obx(
       () => Positioned(
         left: controller.offset.value.dx,
@@ -94,13 +131,42 @@ class QuestionView extends StatelessWidget {
             onPanUpdate: (details) {
               controller.changePosition(newOffset: details.delta);
             },
+            child: _answerHeroView(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  _answerHeroView() {
+    final controller = Get.put(QuestionUIController());
+    final questionFocusedIndex = controller.selectedQuestionIndex.value;
+    final travelUIController = Get.put(TravelMainUIController());
+    final travelFocusedIndex = travelUIController.hoveredIndex.value;
+
+    return Builder(
+      builder: (context) {
+        return Hero(
+          tag: 'answer',
+          flightShuttleBuilder: (_, __, ___, ____, _____) {
+            return _travelBackgroundView(
+                  questionFocusedIndex: questionFocusedIndex,
+                  travelFocusedIndex: travelFocusedIndex,
+                ) ??
+                Container(
+                  width: screenWidth(context),
+                  height: screenHeight(context),
+                  color: Colors.black,
+                  child: myQuestion[questionFocusedIndex].transitionScreen,
+                );
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
             child: Container(
               width: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
               height: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
-              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Color(0xff18183a),
-                borderRadius: BorderRadius.circular(10),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.shade900.withValues(alpha: 0.3),
@@ -112,24 +178,61 @@ class QuestionView extends StatelessWidget {
               ),
               child: GestureDetector(
                 onTap: () {
-                  final index = controller.selectedQuestionIndex.value;
-                  final childPath = myQuestion[index].path;
+                  final childPath = myQuestion[questionFocusedIndex].path;
                   if (childPath != null) {
-                    Get.toNamed(childPath);
+                    Get.to(
+                      myQuestion[questionFocusedIndex].answerScreen,
+                      routeName: childPath,
+                      transition: Transition.fadeIn,
+                      duration: Duration(milliseconds: 500),
+                    );
                   }
                 },
-                child: Center(
-                  child: Text(
-                    myQuestion[controller.selectedQuestionIndex.value].answer,
-                    style: TextStyle(color: Colors.white),
-                    textAlign: TextAlign.center,
-                  ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  fit: StackFit.expand,
+                  children: [
+                    _travelBackgroundView(
+                          questionFocusedIndex: questionFocusedIndex,
+                          travelFocusedIndex: travelFocusedIndex,
+                        ) ??
+                        myQuestion[questionFocusedIndex].transitionScreen ??
+                        SizedBox(),
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Text(
+                          myQuestion[questionFocusedIndex].answer.tr,
+                          style: TextStyle(
+                            color:
+                                myQuestion[questionFocusedIndex].path == '/baking'
+                                    ? Colors.black
+                                    : Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
+  }
+
+  _travelBackgroundView({
+    required int questionFocusedIndex,
+    required int travelFocusedIndex,
+  }) {
+    if (myQuestion[questionFocusedIndex].path == '/travel') {
+      return ImageView(
+        imageUrl: myTravel[travelFocusedIndex].imageUrl,
+        color: Colors.black.withAlpha(180),
+        colorBlendMode: BlendMode.darken,
+      );
+    }
   }
 }
