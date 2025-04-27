@@ -53,7 +53,7 @@ class _BookBackgroundView extends StatelessWidget {
             (_) => Opacity(
               opacity: 0.5,
               child: ImageView(
-                imageUrl: 'assets/images/book/book.png',
+                imageUrl: 'assets/images/book/book.webp',
                 fit: BoxFit.cover,
                 repeat: true,
               ),
@@ -142,7 +142,12 @@ class _BookItemViewState extends State<_BookItemView>
                           Align(
                             alignment: Alignment.bottomLeft,
                             child: Text(
-                              '읽은 날\n${widget.bookVo.date.year}년 ${widget.bookVo.date.month}월 ${widget.bookVo.date.day}일',
+                              'read_date'.trParams({
+                                'year': widget.bookVo.date.year.toString(),
+                                'month': widget.bookVo.date.month.toString(),
+                                'day': widget.bookVo.date.day.toString()
+                              })
+                            ,
                               style: TextStyle(color: Colors.white),
                             ),
                           )
