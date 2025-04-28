@@ -18,6 +18,8 @@ class AppTranslations extends Translations {
       english.addAll({questionVo.question: questionVo.questionEnglish});
       english.addAll({questionVo.answer: questionVo.answerEnglish});
     }
+    korean.addAll({'[열기]': '[열기]'});
+    english.addAll({'[열기]': '[open]'});
 
     // read book
     korean.addAll({'read_date': '읽은 날\n@year년 @month월 @day일'});

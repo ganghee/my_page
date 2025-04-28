@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:my/util/image_view.dart';
 
 Widget TranslationFloatingButton() {
   bool isEnglish = Get.locale == Locale('en', 'US');
@@ -15,14 +14,6 @@ Widget TranslationFloatingButton() {
         Get.updateLocale(Locale('en', 'US'));
       }
     },
-    child: ImageView(
-      imageUrl: isEnglish
-          ? 'assets/icon/translation_kr.webp'
-          : 'assets/icon/translation_kr.webp',
-      width: 40,
-      height: 40,
-      fit: BoxFit.cover,
-    ),
+    child: Icon(Icons.translate, color: Colors.black),
   );
 }
-
