@@ -12,10 +12,10 @@ class TravelDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final travelMainUIController =
-        Get.put(TravelMainUIController()); // todo 추후 find로 변경
+    final travelMainUIController = Get.put(TravelMainUIController());
     final travelDetailUIController = Get.put(TravelDetailUIController());
-    final travelId = Get.arguments ?? int.parse(Get.parameters['travelId'] ?? '0');
+    final travelId =
+        Get.arguments ?? int.parse(Get.parameters['travelId'] ?? '0');
 
     travelDetailUIController.changeScreenHeight(screenHeight(context));
     travelDetailUIController.setTravelItems(travelId);
@@ -34,14 +34,52 @@ class TravelDetailScreen extends StatelessWidget {
             if (index >= travelDetailUIController.items.length) {
               return SizedBox();
             } else {
-              return itemView(
-                index: index,
-                animation: animation,
-                travelId: travelId,
+              return Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Visibility(
+                      visible: index == 0,
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          if (Get.locale == Locale('en', 'US')) {
+                            Get.updateLocale(Locale('ko', 'KR'));
+                          } else {
+                            Get.updateLocale(Locale('en', 'US'));
+                          }
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(6),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(Icons.translate),
+                              SizedBox(width: 10),
+                              Text(
+                                Get.locale == Locale('en', 'US')
+                                    ? '번역하기'
+                                    : 'Translate',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  itemView(
+                    index: index,
+                    animation: animation,
+                    travelId: travelId,
+                  ),
+                ],
               );
             }
           },
-          separatorBuilder: (_, __, ___) => SizedBox(height: 40),
+          separatorBuilder: (_, index, __) => Visibility(
+            visible: index <= travelDetailUIController.items.length,
+            child: SizedBox(height: 40),
+          ),
           removedSeparatorBuilder: (_, __, ___) => SizedBox(height: 20),
           shrinkWrap: true,
           padding: const EdgeInsets.only(top: 20, bottom: 20),
@@ -79,7 +117,8 @@ class TravelDetailScreen extends StatelessWidget {
                           (travel) => travel.travelId == travelId,
                         )
                         .first
-                        .title,
+                        .title
+                        .tr,
                     style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -110,7 +149,7 @@ class TravelDetailScreen extends StatelessWidget {
 
       case TravelDetailType.text:
         return Text(
-          item.description,
+          item.description.tr,
           style: TextStyle(fontSize: 20),
           textAlign: TextAlign.center,
         );
