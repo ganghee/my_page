@@ -9,12 +9,12 @@ class TravelMainUIController extends GetxController
   final hoveredIndex = 0.obs;
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 1500),
+    duration: Duration(milliseconds: 2500),
   );
   late final Animation<double> animation =
-      Tween<double>(begin: 4, end: -1).animate(curvedAnimation);
-  late final Animation<double> animation2 =
-      Tween<double>(begin: 6.5, end: -1.7).animate(curvedAnimation);
+      Tween<double>(begin: 3.5, end: -2).animate(curvedAnimation);
+  late Animation<double> animation2 =
+      Tween<double>(begin: 0, end: -10).animate(curvedAnimation);
   late final CurvedAnimation curvedAnimation = CurvedAnimation(
     parent: _animationController,
     curve: Curves.fastOutSlowIn,
@@ -36,6 +36,11 @@ class TravelMainUIController extends GetxController
         );
       }
     });
+  }
+
+  setAnimation2(double height) {
+    animation2 = Tween<double>(begin: height * 1.2, end: -height * 0.5)
+        .animate(curvedAnimation);
   }
 
   onClickItem(int index) {
@@ -81,6 +86,15 @@ class TravelMainUIController extends GetxController
   @override
   void onClose() {
     scrollController.dispose();
+    _animationController.dispose();
     super.onClose();
+  }
+
+  void stopAnimation() {
+    if (_animationController.isAnimating) {
+      _animationController.reverse();
+    } else {
+      Get.back();
+    }
   }
 }
