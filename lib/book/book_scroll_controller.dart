@@ -15,6 +15,7 @@ class BookScrollController extends GetxController {
   late final ScrollController bookScrollController = ScrollController();
   final _horizontalScrollSpeed = 0.5;
   final isVerticalScrollable = true.obs;
+  bool _isDisposed = false;
 
   // 책 가로 스크롤 이벤트 감지
   detectBookScroll({
@@ -22,6 +23,8 @@ class BookScrollController extends GetxController {
     required double horizontalY,
     required double horizontalHeight,
   }) async {
+    if (_isDisposed) return;
+    
     if (pointerSignal is PointerScrollEvent) {
       final currentPosition = verticalController.offset; // 현재 위치
       // 스크롤 위치가 가로 스크롤 위치에 있을 때
@@ -85,12 +88,14 @@ class BookScrollController extends GetxController {
 
   // 스크롤 위치를 고정시키는 함수
   _fixScrollPosition({required double horizontalY}) {
+    if (_isDisposed) return;
     isVerticalScrollable.value = false;
     verticalController.jumpTo(horizontalY);
   }
 
   @override
   void onClose() {
+    _isDisposed = true;
     verticalController.dispose();
     bookScrollController.dispose();
     super.onClose();
