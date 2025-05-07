@@ -8,6 +8,7 @@ import 'package:my/book/book_vo.dart';
 import 'package:my/util/image_view.dart';
 import 'package:my/util/size.dart';
 import 'package:collection/collection.dart';
+import 'package:my/util/translation_floating_button.dart';
 
 part 'books_scroll_view.dart';
 
@@ -55,10 +56,21 @@ class _BookScreenState extends State<BookScreen> {
             physics: controller.isVerticalScrollable.value
                 ? null
                 : const NeverScrollableScrollPhysics(),
-            child: _BooksScrollView(horizontalKey: _horizontalKey),
+            child: Hero(
+              tag: 'answer',
+              placeholderBuilder: (_, __, ___) {
+                return Container(
+                  width: screenWidth(context),
+                  height: screenHeight(context),
+                  color: Colors.black,
+                );
+              },
+              child: _BooksScrollView(horizontalKey: _horizontalKey),
+            ),
           ),
         ),
       ),
+      floatingActionButton: TranslationFloatingButton(),
     );
   }
 }
