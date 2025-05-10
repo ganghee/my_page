@@ -1,14 +1,16 @@
 class TravelVo {
   int travelId;
   String title;
+  String titleEnglish;
   String imageUrl;
-  String description;
+  String patternImage;
 
   TravelVo({
     required this.travelId,
     required this.title,
+    required this.titleEnglish,
     required this.imageUrl,
-    required this.description,
+    required this.patternImage,
   });
 }
 
@@ -16,31 +18,29 @@ final List<TravelVo> myTravel = [
   TravelVo(
     travelId: 1,
     title: '방콕',
-    imageUrl: 'assets/images/bangkok.png',
-    description: '',
+    titleEnglish: 'Bangkok',
+    imageUrl: 'assets/images/bangkok/bangkok.webp',
+    patternImage: 'assets/images/bangkok/bangkok_pattern.webp',
   ),
   TravelVo(
     travelId: 2,
     title: '오사카',
-    imageUrl: 'assets/images/osaka.jpg',
-    description: '',
+    titleEnglish: 'Osaka',
+    imageUrl: 'assets/images/osaka/osaka.webp',
+    patternImage: 'assets/images/osaka/osaka_pattern.webp',
   ),
   TravelVo(
     travelId: 3,
     title: '제주도',
-    imageUrl: 'assets/images/jeju.jpeg',
-    description: '',
+    titleEnglish: 'Jeju',
+    imageUrl: 'assets/images/jeju/jeju.webp',
+    patternImage: 'assets/images/jeju/jeju_pattern.webp',
   ),
   TravelVo(
     travelId: 4,
     title: '강릉',
-    imageUrl: 'assets/images/gangneung.jpg',
-    description: '',
-  ),
-  TravelVo(
-    travelId: 5,
-    title: '포천',
-    imageUrl: 'assets/images/pocheon.jpeg',
-    description: '',
+    titleEnglish: 'Gangneung',
+    imageUrl: 'assets/images/gangneung/gangneung.webp',
+    patternImage: 'assets/images/gangneung/gangneung_pattern.webp',
   ),
 ];
