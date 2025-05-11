@@ -13,17 +13,27 @@ class TravelScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        color: Colors.black,
-        width: screenWidth(context),
-        height: screenHeight(context),
-        child: Stack(
-          children: [
-            _backgroundView(context),
-            _TravelListView(),
-            _PageAnimationView(),
-          ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, didPopResult) async {
+        final travelScrollController = Get.find<TravelMainUIController>();
+        travelScrollController.stopAnimation();
+      },
+      child: Scaffold(
+        body: Container(
+          color: Colors.black,
+          width: screenWidth(context),
+          height: screenHeight(context),
+          child: Hero(
+            tag: 'answer',
+            child: Stack(
+              children: [
+                _backgroundView(context),
+                _TravelListView(),
+                _PageAnimationView(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -31,8 +41,7 @@ class TravelScreen extends StatelessWidget {
 
   Widget _backgroundView(BuildContext context) {
     Get.lazyPut<TravelMainUIController>(() => TravelMainUIController());
-    final travelScrollController =
-        Get.find<TravelMainUIController>();
+    final travelScrollController = Get.find<TravelMainUIController>();
 
     return Obx(
       () => AnimatedSwitcher(
@@ -63,6 +72,7 @@ class _PageAnimationView extends StatelessWidget {
     return GetBuilder(
       init: TravelMainUIController(),
       builder: (controller) {
+        controller.setAnimation2(screenHeight(context));
         return Stack(
           children: [
             AnimatedBuilder(
@@ -81,13 +91,16 @@ class _PageAnimationView extends StatelessWidget {
             ),
             AnimatedBuilder(
               animation: controller.curvedAnimation,
-              builder: (context, child) => Align(
-                alignment: Alignment(0, controller.animation2.value),
-                child: CustomPaint(
-                  size: Size(screenWidth(context), screenHeight(context) * 0.5),
-                  painter: TravelRoutePainter(
-                    color: Colors.black,
-                    routerType: RouterType.second,
+              builder: (context, child) => Positioned(
+                top: controller.animation2.value,
+                child: ClipPath(
+                  clipper: WaveClipper(),
+                  child: Image.asset(
+                    myTravel[controller.hoveredIndex.value].patternImage,
+                    fit: BoxFit.contain,
+                    repeat: ImageRepeat.repeat,
+                    width: screenWidth(context),
+                    height: screenHeight(context) * 1.5,
                   ),
                 ),
               ),
@@ -97,4 +110,24 @@ class _PageAnimationView extends StatelessWidget {
       },
     );
   }
+}
+
+class WaveClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    return Path()
+      ..moveTo(0, size.height)
+      ..lineTo(0, size.height / 6)
+      ..quadraticBezierTo(
+        size.width * 0.8,
+        -size.height / 20,
+        size.width,
+        size.height / 6,
+      )
+      ..lineTo(size.width, size.height)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
