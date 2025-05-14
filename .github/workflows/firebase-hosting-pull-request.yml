@@ -9,9 +9,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_GANGHEE_LIFE }}'
-          projectId: ganghee-life
+          flutter-version: '3.13.0' # 원하는 버전 명시 가능
+
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build Web
+        run: flutter build web
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
