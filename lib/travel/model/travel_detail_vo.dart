@@ -6,8 +6,6 @@ part 'jeju_vo.dart';
 
 part 'osaka_vo.dart';
 
-part 'pocheon_vo.dart';
-
 enum TravelDetailType {
   text,
   image,
@@ -26,12 +24,14 @@ class TravelDetailVo {
 class TravelItemVo {
   TravelDetailType type;
   String description;
-  List<String>? imageUrls;
+  String descriptionEnglish = '';
+  List<String> imageUrls;
 
   TravelItemVo({
     required this.type,
-    required this.description,
-    this.imageUrls,
+    this.description = '',
+    this.descriptionEnglish = '',
+    this.imageUrls = const [],
   });
 }
 
@@ -40,5 +40,4 @@ final List<TravelDetailVo> myTravelDetail = [
   _osakaVo,
   _jejuVo,
   _gangneungVo,
-  _pocheonVo,
 ];
