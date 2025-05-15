@@ -36,7 +36,7 @@ class BakingRecipeAnimationController extends GetxController
     });
   }
 
-  setPortraitMode(bool isPortrait) {
+  void setPortraitMode(bool isPortrait) {
     _isPortrait = isPortrait;
   }
 

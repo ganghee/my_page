@@ -9,13 +9,13 @@ class BakingController extends GetxController {
   double _animationValue = 0;
   final _part = 1 / bakings.length;
 
-  changeFocusIndex(int index) {
+  void changeFocusIndex(int index) {
     if (focusIndex.value == index) return;
     focusIndex.value = index;
     update();
   }
 
-  changeAnimationValue({
+  void changeAnimationValue({
     required double currentAnimationValue,
     required bool isForward,
   }) {
@@ -40,7 +40,8 @@ class BakingController extends GetxController {
           break;
         }
       }
-    } else { // when counter clockwise rotation
+    } else {
+      // when counter clockwise rotation
       for (int i = 1; i < bakings.length; i++) {
         if (currentAnimationValue < _part * i && _animationValue >= _part * i) {
           _animationValue = currentAnimationValue;

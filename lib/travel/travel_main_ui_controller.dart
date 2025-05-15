@@ -38,22 +38,22 @@ class TravelMainUIController extends GetxController
     });
   }
 
-  setAnimation2(double height) {
+  void setAnimation2(double height) {
     animation2 = Tween<double>(begin: height * 1.2, end: -height * 0.5)
         .animate(curvedAnimation);
   }
 
-  onClickItem(int index) {
+  void onClickItem(int index) {
     hoveredIndex.value = index;
     _animationController.forward();
   }
 
-  onChangeHoveredIndex(int index) {
+  void onChangeHoveredIndex(int index) {
     if (index == hoveredIndex.value) return;
     hoveredIndex.value = index;
   }
 
-  onChangeScrollOffset({
+  void onChangeScrollOffset({
     required int index,
     required double smallItemWidth,
     required double bigItemWidth,
@@ -72,13 +72,13 @@ class TravelMainUIController extends GetxController
     );
   }
 
-  onDragUpdate(DragUpdateDetails details) {
+  void onDragUpdate(DragUpdateDetails details) {
     scrollController.jumpTo(
       scrollController.offset - details.delta.dx,
     );
   }
 
-  onBeforeRoute() async {
+  Future<void> onBeforeRoute() async {
     await Future.delayed(Duration(milliseconds: 800));
     _animationController.reverse();
   }
