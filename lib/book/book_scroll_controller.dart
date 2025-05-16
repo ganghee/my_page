@@ -13,7 +13,7 @@ class BookScrollController extends GetxController {
   ScrollState _isHorizontalScrollState = ScrollState.init;
   late final ScrollController verticalController = ScrollController();
   late final ScrollController bookScrollController = ScrollController();
-  final _horizontalScrollSpeed = 0.5;
+  final double _horizontalScrollSpeed = 0.5;
   final isVerticalScrollable = true.obs;
   bool _isDisposed = false;
 
@@ -25,63 +25,127 @@ class BookScrollController extends GetxController {
     if (_isDisposed) return;
 
     if (pointerSignal is PointerScrollEvent) {
-      final currentPosition = verticalController.offset; // 현재 위치
-      // 스크롤 위치가 가로 스크롤 위치에 있을 때
-      // 아래로 스크롤 시
-      if (pointerSignal.scrollDelta.dy > 0 &&
-          currentPosition >= horizontalY &&
-          currentPosition < horizontalY + horizontalHeight) {
-        if (_isHorizontalScrollState == ScrollState.init) {
-          _isHorizontalScrollState = ScrollState.scrolling;
-        }
-        if (_isHorizontalScrollState == ScrollState.scrolling) {
-          _horizontalProgress +=
-              pointerSignal.scrollDelta.dy * _horizontalScrollSpeed;
+      final currentPosition = verticalController.offset;
 
-          if (isVerticalScrollable.value) {
-            _fixScrollPosition(horizontalY: horizontalY);
-          }
-          if (_horizontalProgress < 0) {
-            _horizontalProgress = 0;
-          }
-
-          // 가로 스크롤이 끝에 도달했을 때
-          if (_horizontalProgress >
-              bookScrollController.position.maxScrollExtent - 10) {
-            isVerticalScrollable.value = true;
-            _isHorizontalScrollState = ScrollState.end;
-          }
-        }
-
-        // 위로 스크롤 시
-      } else if ((pointerSignal.scrollDelta.dy < 0 &&
-          currentPosition <= horizontalY)) {
-        if (_isHorizontalScrollState != ScrollState.init) {
-          _horizontalProgress +=
-              pointerSignal.scrollDelta.dy * _horizontalScrollSpeed;
-          if (_isHorizontalScrollState == ScrollState.end) {
-            _isHorizontalScrollState = ScrollState.scrolling;
-          }
-          // 가로 스크롤이 초기 상태로 되돌아 왔을 때
-          if (_horizontalProgress < 0) {
-            isVerticalScrollable.value = true;
-            _horizontalProgress = 0;
-            _isHorizontalScrollState = ScrollState.init;
-          }
-        }
+      if (_isScrollingDown(
+        pointerSignal: pointerSignal,
+        currentPosition: currentPosition,
+        horizontalY: horizontalY,
+        horizontalHeight: horizontalHeight,
+      )) {
+        _handleScrollingDown(
+          pointerSignal: pointerSignal,
+          horizontalY: horizontalY,
+        );
+      } else if (_isScrollingUp(
+        pointerSignal: pointerSignal,
+        currentPosition: currentPosition,
+        horizontalY: horizontalY,
+      )) {
+        _handleScrollingUp(
+          pointerSignal: pointerSignal,
+          horizontalY: horizontalY,
+        );
       }
 
-      if (currentPosition < horizontalY &&
-          _isHorizontalScrollState == ScrollState.end) {
-        _isHorizontalScrollState = ScrollState.scrolling;
-        _fixScrollPosition(horizontalY: horizontalY);
-      }
+      _handleEndState(
+        currentPosition: currentPosition,
+        horizontalY: horizontalY,
+      );
+      _updateScrollPosition();
+    }
+  }
 
-      if (_isHorizontalScrollState == ScrollState.init) {
-        bookScrollController.jumpTo(0);
-      } else {
-        bookScrollController.jumpTo(_horizontalProgress);
-      }
+  bool _isScrollingDown({
+    required PointerScrollEvent pointerSignal,
+    required double currentPosition,
+    required double horizontalY,
+    required double horizontalHeight,
+  }) {
+    return pointerSignal.scrollDelta.dy > 0 &&
+        currentPosition >= horizontalY &&
+        currentPosition < horizontalY + horizontalHeight;
+  }
+
+  bool _isScrollingUp({
+    required PointerScrollEvent pointerSignal,
+    required double currentPosition,
+    required double horizontalY,
+  }) {
+    return pointerSignal.scrollDelta.dy < 0 && currentPosition <= horizontalY;
+  }
+
+  void _handleScrollingDown({
+    required PointerScrollEvent pointerSignal,
+    required double horizontalY,
+  }) {
+    if (_isHorizontalScrollState == ScrollState.init) {
+      _isHorizontalScrollState = ScrollState.scrolling;
+    }
+
+    if (_isHorizontalScrollState == ScrollState.scrolling) {
+      _updateHorizontalProgress(delta: pointerSignal.scrollDelta.dy);
+      _handleScrollingDownState(horizontalY: horizontalY);
+    }
+  }
+
+  void _handleScrollingUp({
+    required PointerScrollEvent pointerSignal,
+    required double horizontalY,
+  }) {
+    if (_isHorizontalScrollState != ScrollState.init) {
+      _updateHorizontalProgress(delta: pointerSignal.scrollDelta.dy);
+      _handleScrollingUpState();
+    }
+  }
+
+  void _updateHorizontalProgress({required double delta}) {
+    _horizontalProgress += delta * _horizontalScrollSpeed;
+    if (_horizontalProgress < 0) {
+      _horizontalProgress = 0;
+    }
+  }
+
+  void _handleScrollingDownState({required double horizontalY}) {
+    if (isVerticalScrollable.value) {
+      _fixScrollPosition(horizontalY: horizontalY);
+    }
+
+    if (_horizontalProgress >
+        bookScrollController.position.maxScrollExtent - 10) {
+      isVerticalScrollable.value = true;
+      _isHorizontalScrollState = ScrollState.end;
+    }
+  }
+
+  void _handleScrollingUpState() {
+    if (_isHorizontalScrollState == ScrollState.end) {
+      _isHorizontalScrollState = ScrollState.scrolling;
+    }
+
+    if (_horizontalProgress < 0) {
+      isVerticalScrollable.value = true;
+      _horizontalProgress = 0;
+      _isHorizontalScrollState = ScrollState.init;
+    }
+  }
+
+  void _handleEndState({
+    required double currentPosition,
+    required double horizontalY,
+  }) {
+    if (currentPosition < horizontalY &&
+        _isHorizontalScrollState == ScrollState.end) {
+      _isHorizontalScrollState = ScrollState.scrolling;
+      _fixScrollPosition(horizontalY: horizontalY);
+    }
+  }
+
+  void _updateScrollPosition() {
+    if (_isHorizontalScrollState == ScrollState.init) {
+      bookScrollController.jumpTo(0);
+    } else {
+      bookScrollController.jumpTo(_horizontalProgress);
     }
   }
 
