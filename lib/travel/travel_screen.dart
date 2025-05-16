@@ -90,7 +90,7 @@ class _PageAnimationView extends StatelessWidget {
               ),
             ),
             AnimatedBuilder(
-              animation: controller.curvedAnimation,
+              animation: controller.animation2,
               builder: (context, child) => Positioned(
                 top: controller.animation2.value,
                 child: ClipPath(
