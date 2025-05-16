@@ -9,13 +9,13 @@ class TravelMainUIController extends GetxController
   final hoveredIndex = 0.obs;
   late final AnimationController _animationController = AnimationController(
     vsync: this,
-    duration: Duration(milliseconds: 2500),
+    duration: const Duration(milliseconds: 2500),
   );
   late final Animation<double> animation =
-      Tween<double>(begin: 3.5, end: -2).animate(curvedAnimation);
+      Tween<double>(begin: 3.5, end: -2).animate(_curvedAnimation);
   late Animation<double> animation2 =
-      Tween<double>(begin: 0, end: -10).animate(curvedAnimation);
-  late final CurvedAnimation curvedAnimation = CurvedAnimation(
+      Tween<double>(begin: 0, end: -10).animate(_curvedAnimation);
+  late final CurvedAnimation _curvedAnimation = CurvedAnimation(
     parent: _animationController,
     curve: Curves.fastOutSlowIn,
   );
@@ -26,10 +26,10 @@ class TravelMainUIController extends GetxController
     _animationController.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         Get.to(
-          () => TravelDetailScreen(),
+          () => const TravelDetailScreen(),
           routeName: '/travel/${myTravel[hoveredIndex.value].travelId}',
           arguments: myTravel[hoveredIndex.value].travelId,
-          duration: Duration(milliseconds: 1200),
+          duration: const Duration(milliseconds: 1200),
           transition: Transition.downToUp,
           fullscreenDialog: true,
           curve: Curves.fastOutSlowIn,
@@ -40,7 +40,7 @@ class TravelMainUIController extends GetxController
 
   void setAnimation2(double height) {
     animation2 = Tween<double>(begin: height * 1.2, end: -height * 0.5)
-        .animate(curvedAnimation);
+        .animate(_curvedAnimation);
   }
 
   void onClickItem(int index) {
@@ -67,7 +67,7 @@ class TravelMainUIController extends GetxController
     final maxOffset = scrollController.position.maxScrollExtent;
     scrollController.animateTo(
       offset > maxOffset ? maxOffset : offset,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       curve: Curves.linear,
     );
   }
@@ -79,7 +79,7 @@ class TravelMainUIController extends GetxController
   }
 
   Future<void> onBeforeRoute() async {
-    await Future.delayed(Duration(milliseconds: 800));
+    await Future.delayed(const Duration(milliseconds: 800));
     _animationController.reverse();
   }
 
