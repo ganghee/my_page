@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my/question/question_binding.dart';
 import 'package:my/question/question_screen.dart';
 import 'package:my/travel/travel_detail_screen.dart';
 import 'package:my/travel/travel_screen.dart';
@@ -25,16 +26,30 @@ class MyApp extends StatelessWidget {
       home: QuestionScreen(),
       translations: AppTranslations(),
       locale: Locale('ko', 'KR'),
+      initialBinding: QuestionBinding(),
       getPages: [
-        GetPage(name: '/travel/:travelId', page: () => TravelDetailScreen()),
-        GetPage(name: '/travel', page: () => TravelScreen()),
-        GetPage(name: '/question', page: () => QuestionScreen()),
+        GetPage(
+          name: '/travel/:travelId',
+          page: () => TravelDetailScreen(),
+        ),
+        GetPage(
+          name: '/travel',
+          page: () => TravelScreen(),
+        ),
+        GetPage(
+          name: '/question',
+          page: () => QuestionScreen(),
+          binding: QuestionBinding(),
+        ),
         GetPage(
           name: '/baking',
           page: () => BakingScreen(),
           preventDuplicates: true,
         ),
-        GetPage(name: '/book', page: () => BookScreen()),
+        GetPage(
+          name: '/book',
+          page: () => BookScreen(),
+        ),
       ],
     );
   }

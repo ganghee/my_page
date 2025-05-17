@@ -14,7 +14,7 @@ class QuestionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(QuestionUIController());
+    final controller = Get.find<QuestionUIController>();
     final dividerSize = isPortraitMode(context) ? 8 : 4;
     if (controller.offset.value == Offset.zero) {
       controller.initAnswerPosition(
@@ -38,7 +38,7 @@ class QuestionScreen extends StatelessWidget {
   }
 
   Widget _backgroundView(BuildContext context) {
-    final controller = Get.put(QuestionUIController());
+    final controller = Get.find<QuestionUIController>();
 
     return Obx(
       () => SizedBox(
@@ -53,7 +53,7 @@ class QuestionScreen extends StatelessWidget {
   }
 
   Widget _questionsView(BuildContext context) {
-    final controller = Get.put(QuestionUIController());
+    final controller = Get.find<QuestionUIController>();
 
     return ListWheelScrollView.useDelegate(
       // 아이템 픽셀 높이
@@ -118,8 +118,8 @@ class QuestionScreen extends StatelessWidget {
     );
   }
 
-  _floatingAnswerView() {
-    final controller = Get.put(QuestionUIController());
+  Widget _floatingAnswerView() {
+    final controller = Get.find<QuestionUIController>();
 
     return Obx(
       () => Positioned(
@@ -138,10 +138,10 @@ class QuestionScreen extends StatelessWidget {
     );
   }
 
-  _answerHeroView() {
-    final controller = Get.put(QuestionUIController());
+  Widget _answerHeroView() {
+    final controller = Get.find<QuestionUIController>();
     final questionFocusedIndex = controller.selectedQuestionIndex.value;
-    final travelUIController = Get.put(TravelMainUIController());
+    final travelUIController = Get.find<TravelMainUIController>();
     final travelFocusedIndex = travelUIController.hoveredIndex.value;
 
     return Builder(
@@ -160,70 +160,93 @@ class QuestionScreen extends StatelessWidget {
                   child: myQuestion[questionFocusedIndex].transitionScreen,
                 );
           },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Container(
-              width: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
-              height: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
-              decoration: BoxDecoration(
-                color: Color(0xff18183a),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.shade900.withValues(alpha: 0.3),
-                    spreadRadius: 5,
-                    blurRadius: 7,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  final childPath = myQuestion[questionFocusedIndex].path;
-                  if (childPath != null) {
-                    Get.to(
-                      myQuestion[questionFocusedIndex].answerScreen,
-                      routeName: childPath,
-                      transition: Transition.fadeIn,
-                      duration: Duration(milliseconds: 500),
-                    );
-                  }
-                },
-                child: Stack(
-                  alignment: Alignment.center,
-                  fit: StackFit.expand,
-                  children: [
-                    _travelBackgroundView(
-                          questionFocusedIndex: questionFocusedIndex,
-                          travelFocusedIndex: travelFocusedIndex,
-                        ) ??
-                        myQuestion[questionFocusedIndex].transitionScreen ??
-                        SizedBox(),
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Text(
-                          myQuestion[questionFocusedIndex].answer.tr,
-                          style: TextStyle(
-                            color:
-                                myQuestion[questionFocusedIndex].path == '/baking'
-                                    ? Colors.black
-                                    : Colors.white,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          child: _answerContainerView(
+            questionFocusedIndex: questionFocusedIndex,
+            travelFocusedIndex: travelFocusedIndex,
           ),
         );
       },
     );
   }
 
-  _travelBackgroundView({
+  Widget _answerContainerView({
+    required int questionFocusedIndex,
+    required int travelFocusedIndex,
+  }) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(10),
+      child: Builder(
+        builder: (context) {
+          return Container(
+            width: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
+            height: screenHeight(context) / (isPortraitMode(context) ? 4 : 2),
+            decoration: BoxDecoration(
+              color: Color(0xff18183a),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.shade900.withValues(alpha: 0.3),
+                  spreadRadius: 5,
+                  blurRadius: 7,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: _answerGestureDetector(
+              questionFocusedIndex: questionFocusedIndex,
+              travelFocusedIndex: travelFocusedIndex,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _answerGestureDetector({
+    required int questionFocusedIndex,
+    required int travelFocusedIndex,
+  }) {
+    return GestureDetector(
+      onTap: () {
+        final childPath = myQuestion[questionFocusedIndex].path;
+        if (childPath != null) {
+          Get.to(
+            myQuestion[questionFocusedIndex].answerScreen,
+            routeName: childPath,
+            transition: Transition.fadeIn,
+            duration: Duration(milliseconds: 500),
+          );
+        }
+      },
+      child: Stack(
+        alignment: Alignment.center,
+        fit: StackFit.expand,
+        children: [
+          _travelBackgroundView(
+                questionFocusedIndex: questionFocusedIndex,
+                travelFocusedIndex: travelFocusedIndex,
+              ) ??
+              myQuestion[questionFocusedIndex].transitionScreen ??
+              SizedBox(),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Text(
+                myQuestion[questionFocusedIndex].answer.tr,
+                style: TextStyle(
+                  color: myQuestion[questionFocusedIndex].path == '/baking'
+                      ? Colors.black
+                      : Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget? _travelBackgroundView({
     required int questionFocusedIndex,
     required int travelFocusedIndex,
   }) {
@@ -234,5 +257,6 @@ class QuestionScreen extends StatelessWidget {
         colorBlendMode: BlendMode.darken,
       );
     }
+    return null;
   }
 }
