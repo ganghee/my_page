@@ -15,12 +15,12 @@ class QuestionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(QuestionUIController());
-    final divide = isPortraitMode(context) ? 8 : 4;
+    final dividerSize = isPortraitMode(context) ? 8 : 4;
     if (controller.offset.value == Offset.zero) {
       controller.initAnswerPosition(
         newOffset: Offset(
-          screenWidth(context) / 2 - screenHeight(context) / divide,
-          screenHeight(context) / 2 - screenHeight(context) / divide,
+          screenWidth(context) / 2 - screenHeight(context) / dividerSize,
+          screenHeight(context) / 2 - screenHeight(context) / dividerSize,
         ),
       );
     }
