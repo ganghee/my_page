@@ -1,12 +1,9 @@
 part of 'baking_screen.dart';
 
 class _BakingListView extends StatelessWidget {
-  final bakingController = Get.find<BakingController>();
-
   @override
   Widget build(BuildContext context) {
-    Get.put(BakingListScrollController());
-
+    final bakingController = Get.find<BakingController>();
     return Align(
       alignment: Alignment(-0.8, isPortraitMode(context) ? -0.2 : 0.3),
       child: Container(
@@ -43,6 +40,7 @@ class _BakingListView extends StatelessWidget {
     final breadItemWidth =
         screenWidth(context) / (isPortraitMode(context) ? 10 : 14);
     final bakingListScrollController = Get.find<BakingListScrollController>();
+    final bakingController = Get.find<BakingController>();
     return SizedBox(
       width: screenWidth(context) / (isPortraitMode(context) ? 1 : 2) - 80,
       height: screenHeight(context) / 7,

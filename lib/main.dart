@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my/baking/baking_binding.dart';
+import 'package:my/book/book_binding.dart';
 import 'package:my/question/question_binding.dart';
 import 'package:my/question/question_screen.dart';
+import 'package:my/travel/travel_binding.dart';
 import 'package:my/travel/travel_detail_screen.dart';
 import 'package:my/travel/travel_screen.dart';
 import 'package:my/util/app_translations.dart';
@@ -31,10 +34,12 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/travel/:travelId',
           page: () => TravelDetailScreen(),
+          binding: TravelDetailBinding(),
         ),
         GetPage(
           name: '/travel',
           page: () => TravelScreen(),
+          binding: TravelBinding(),
         ),
         GetPage(
           name: '/question',
@@ -44,11 +49,13 @@ class MyApp extends StatelessWidget {
         GetPage(
           name: '/baking',
           page: () => BakingScreen(),
+          binding: BakingBinding(),
           preventDuplicates: true,
         ),
         GetPage(
           name: '/book',
           page: () => BookScreen(),
+          binding: BookBinding(),
         ),
       ],
     );

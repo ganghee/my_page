@@ -11,8 +11,6 @@ class _BakingRotationView extends StatelessWidget {
     final initRotation = pi / 2;
     final rotationSizeX = isPortraitMode(context) ? 2 : 1;
     final rotationSizeY = screenHeight(context) * 1.2 / screenWidth(context);
-    Get.put(BakingRotationAnimationController());
-
     final animation = Get.find<BakingRotationAnimationController>().animation;
     final bakingController = Get.find<BakingController>();
 

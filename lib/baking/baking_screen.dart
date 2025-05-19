@@ -27,7 +27,6 @@ class BakingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(BakingController());
     return Scaffold(
       body: SizedBox(
         width: screenWidth(context),
@@ -53,7 +52,7 @@ class BakingScreen extends StatelessWidget {
       children: [
         GetBuilder(
           init: BakingBackgroundColorController(),
-          builder: (controller) {
+          builder: (BakingBackgroundColorController controller) {
             return AnimatedBuilder(
               animation: controller.colorAnimation,
               builder: (BuildContext context, Widget? child) {

@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:my/travel/model/travel_vo.dart';
+import 'package:my/travel/travel_binding.dart';
 import 'package:my/travel/travel_detail_screen.dart';
 
 class TravelMainUIController extends GetxController
@@ -33,6 +34,7 @@ class TravelMainUIController extends GetxController
           transition: Transition.downToUp,
           fullscreenDialog: true,
           curve: Curves.fastOutSlowIn,
+          binding: TravelDetailBinding(),
         );
       }
     });

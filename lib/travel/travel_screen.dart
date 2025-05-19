@@ -40,7 +40,6 @@ class TravelScreen extends StatelessWidget {
   }
 
   Widget _backgroundView(BuildContext context) {
-    Get.lazyPut<TravelMainUIController>(() => TravelMainUIController());
     final travelScrollController = Get.find<TravelMainUIController>();
 
     return Obx(
@@ -70,8 +69,7 @@ class _PageAnimationView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder(
-      init: TravelMainUIController(),
-      builder: (controller) {
+      builder: (TravelMainUIController controller) {
         controller.setAnimation2(screenHeight(context));
         return Stack(
           children: [

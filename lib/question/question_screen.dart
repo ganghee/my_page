@@ -214,6 +214,7 @@ class QuestionScreen extends StatelessWidget {
             routeName: childPath,
             transition: Transition.fadeIn,
             duration: Duration(milliseconds: 500),
+            binding: myQuestion[questionFocusedIndex].binding,
           );
         }
       },

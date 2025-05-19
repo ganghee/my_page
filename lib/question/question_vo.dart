@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_instance/src/bindings_interface.dart';
+import 'package:my/baking/baking_binding.dart';
 import 'package:my/baking/baking_screen.dart';
 import 'package:my/baking/baking_vo.dart';
+import 'package:my/book/book_binding.dart';
 import 'package:my/book/book_screen.dart';
+import 'package:my/travel/travel_binding.dart';
 import 'package:my/util/image_view.dart';
 
 import '../travel/travel_screen.dart';
@@ -15,6 +19,7 @@ class QuestionVo {
   String? path;
   Widget? answerScreen;
   Widget? transitionScreen;
+  Bindings? binding;
 
   QuestionVo({
     required this.question,
@@ -25,6 +30,7 @@ class QuestionVo {
     this.path,
     this.answerScreen,
     this.transitionScreen,
+    this.binding,
   });
 }
 
@@ -86,6 +92,7 @@ final List<QuestionVo> myQuestion = [
       colorBlendMode: BlendMode.darken,
       color: Colors.black.withAlpha(180),
     ),
+    binding: BookBinding(),
   ),
   QuestionVo(
     question: '좋아하는 음악 장르',
@@ -109,6 +116,7 @@ final List<QuestionVo> myQuestion = [
       color: Colors.black.withAlpha(180),
       fit: BoxFit.cover,
     ),
+    binding: TravelBinding(),
   ),
   QuestionVo(
     question: '베이킹',
@@ -120,6 +128,7 @@ final List<QuestionVo> myQuestion = [
     path: '/baking',
     answerScreen: BakingScreen(),
     transitionScreen: ColoredBox(color: bakings.first.color),
+    binding: BakingBinding(),
   ),
   QuestionVo(
     question: '좋아하는 프로그램',

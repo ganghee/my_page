@@ -12,8 +12,8 @@ class TravelDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final travelMainUIController = Get.put(TravelMainUIController());
-    final travelDetailUIController = Get.put(TravelDetailUIController());
+    final travelMainUIController = Get.find<TravelMainUIController>();
+    final travelDetailUIController = Get.find<TravelDetailUIController>();
     final travelId =
         Get.arguments ?? int.parse(Get.parameters['travelId'] ?? '0');
 

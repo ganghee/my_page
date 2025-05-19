@@ -37,7 +37,7 @@ class _BookScreenState extends State<BookScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(BookScrollController());
+    final controller = Get.find<BookScrollController>();
 
     return Scaffold(
       body: Listener(
