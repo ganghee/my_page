@@ -17,7 +17,7 @@ class BookScrollController extends GetxController {
   final isVerticalScrollable = true.obs;
   bool _isDisposed = false;
 
-  void detectBookScroll({
+  detectBookScroll({
     required PointerSignalEvent pointerSignal,
     required double horizontalY,
     required double horizontalHeight,
