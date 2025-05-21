@@ -18,6 +18,22 @@ class BookVo {
 
 List<BookVo> myBooks = [
   BookVo(
+    title: '황금종이 2',
+    author: '조정래',
+    publisher: '해냄',
+    coverImage: 'assets/images/book/golden2.webp',
+    description: '',
+    date: DateTime(2025, 3, 25),
+  ),
+  BookVo(
+    title: '황금종이 1',
+    author: '조정래',
+    publisher: '해냄',
+    coverImage: 'assets/images/book/golden1.webp',
+    description: '',
+    date: DateTime(2025, 3, 2),
+  ),
+  BookVo(
     title: '데미안',
     author: '헤르만 헤세',
     publisher: '민음사',
