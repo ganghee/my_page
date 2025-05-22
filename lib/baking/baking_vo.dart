@@ -22,7 +22,7 @@ class BakingVo {
   });
 }
 
-List<BakingVo> bakings = [
+final List<BakingVo> bakings = [
   BakingVo(
     name: '크로와상',
     nameEnglish: 'Croissant',

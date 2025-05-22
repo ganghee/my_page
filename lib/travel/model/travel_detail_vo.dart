@@ -12,8 +12,8 @@ enum TravelDetailType {
 }
 
 class TravelDetailVo {
-  int travelId;
-  List<TravelItemVo> items;
+  final int travelId;
+  final List<TravelItemVo> items;
 
   TravelDetailVo({
     required this.travelId,
@@ -22,10 +22,10 @@ class TravelDetailVo {
 }
 
 class TravelItemVo {
-  TravelDetailType type;
-  String description;
-  String descriptionEnglish = '';
-  List<String> imageUrls;
+  final TravelDetailType type;
+  final String description;
+  final String descriptionEnglish;
+  final List<String> imageUrls;
 
   TravelItemVo({
     required this.type,

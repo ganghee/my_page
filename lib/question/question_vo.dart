@@ -11,13 +11,13 @@ import 'package:my/util/image_view.dart';
 import '../travel/travel_screen.dart';
 
 class QuestionVo {
-  String question;
-  String questionEnglish;
-  String answer;
-  String answerEnglish;
-  Color color;
-  String? path;
-  Widget? answerScreen;
+  final String question;
+  final String questionEnglish;
+  final String answer;
+  final String answerEnglish;
+  final Color color;
+  final String? path;
+  final Widget? answerScreen;
   Widget? transitionScreen;
   Bindings? binding;
 

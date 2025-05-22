@@ -1,10 +1,10 @@
 class BookVo {
-  String title;
-  String author;
-  String publisher;
-  String coverImage;
-  String description;
-  DateTime date;
+  final String title;
+  final String author;
+  final String publisher;
+  final String coverImage;
+  final String description;
+  final DateTime date;
 
   BookVo({
     required this.title,
@@ -16,7 +16,7 @@ class BookVo {
   });
 }
 
-List<BookVo> myBooks = [
+final List<BookVo> myBooks = [
   BookVo(
     title: '황금종이 2',
     author: '조정래',
