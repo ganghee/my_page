@@ -40,7 +40,6 @@ class BakingController extends GetxController {
     for (int i = 0; i < bakings.length - 1; i++) {
       if (_shouldUpdateBakingVo(i, currentAnimationValue)) {
         _updateBakingVoForClockwise(i);
-        break;
       }
     }
   }
@@ -59,7 +58,9 @@ class BakingController extends GetxController {
   }
 
   bool _shouldUpdateBakingVoCounterClockwise(
-      int i, double currentAnimationValue) {
+    int i,
+    double currentAnimationValue,
+  ) {
     return currentAnimationValue < _part * i && _animationValue >= _part * i;
   }
 
