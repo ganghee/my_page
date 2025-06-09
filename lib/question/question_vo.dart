@@ -6,9 +6,8 @@ import 'package:my/baking/baking_vo.dart';
 import 'package:my/book/book_binding.dart';
 import 'package:my/book/book_screen.dart';
 import 'package:my/travel/travel_binding.dart';
+import 'package:my/travel/travel_screen.dart';
 import 'package:my/util/image_view.dart';
-
-import '../travel/travel_screen.dart';
 
 class QuestionVo {
   final String question;
@@ -42,6 +41,35 @@ final List<QuestionVo> myQuestion = [
     answerEnglish:
         'I like hamburgers the most. I especially like the Whopper from Burger King, which has a beef patty.',
     color: Colors.red,
+  ),
+  QuestionVo(
+    question: '여행 목록',
+    questionEnglish: 'Travel list',
+    answer: '캠핑과 해외여행을 좋아해요.\n여기를 클릭하면 여행 목록을 볼 수 있어요',
+    answerEnglish:
+        'I like camping and overseas travel. If you click here, you can see the travel list',
+    color: Colors.teal,
+    path: '/travel',
+    answerScreen: TravelScreen(),
+    transitionScreen: ImageView(
+      imageUrl: 'assets/images/bangkok/bangkok.webp',
+      colorBlendMode: BlendMode.darken,
+      color: Colors.black.withAlpha(180),
+      fit: BoxFit.cover,
+    ),
+    binding: TravelBinding(),
+  ),
+  QuestionVo(
+    question: '베이킹',
+    questionEnglish: 'Baking',
+    answer: '베이킹 하는걸 좋아해요\n여기를 클릭하면 만들었던 베이킹 레시피를 볼 수 있어요',
+    answerEnglish:
+        'I like baking. If you click here, you can see the baking recipes I made',
+    color: Colors.brown,
+    path: '/baking',
+    answerScreen: BakingScreen(),
+    transitionScreen: ColoredBox(color: bakings.first.color),
+    binding: BakingBinding(),
   ),
   QuestionVo(
     question: '추천하는 책',
@@ -100,35 +128,6 @@ final List<QuestionVo> myQuestion = [
     answer: '잔잔하고 조용한 음악을 좋아해요.\n특히 지브리 음악을 좋아해요',
     answerEnglish: 'I like Ghibli music',
     color: Colors.pink,
-  ),
-  QuestionVo(
-    question: '여행 목록',
-    questionEnglish: 'Travel list',
-    answer: '캠핑과 해외여행을 좋아해요.\n여기를 클릭하면 여행 목록을 볼 수 있어요',
-    answerEnglish:
-        'I like camping and overseas travel. If you click here, you can see the travel list',
-    color: Colors.teal,
-    path: '/travel',
-    answerScreen: TravelScreen(),
-    transitionScreen: ImageView(
-      imageUrl: 'assets/images/bangkok/bangkok.webp',
-      colorBlendMode: BlendMode.darken,
-      color: Colors.black.withAlpha(180),
-      fit: BoxFit.cover,
-    ),
-    binding: TravelBinding(),
-  ),
-  QuestionVo(
-    question: '베이킹',
-    questionEnglish: 'Baking',
-    answer: '베이킹 하는걸 좋아해요\n여기를 클릭하면 만들었던 베이킹 레시피를 볼 수 있어요',
-    answerEnglish:
-        'I like baking. If you click here, you can see the baking recipes I made',
-    color: Colors.brown,
-    path: '/baking',
-    answerScreen: BakingScreen(),
-    transitionScreen: ColoredBox(color: bakings.first.color),
-    binding: BakingBinding(),
   ),
   QuestionVo(
     question: '좋아하는 프로그램',
