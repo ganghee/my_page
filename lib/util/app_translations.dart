@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
+import 'package:my/baking/baking_vo.dart';
 import 'package:my/question/question_vo.dart';
 import 'package:my/travel/model/travel_detail_vo.dart';
 import 'package:my/travel/model/travel_vo.dart';
-
-import '../baking/baking_vo.dart';
 
 class AppTranslations extends Translations {
   @override
@@ -51,7 +50,7 @@ class AppTranslations extends Translations {
       for (var travelItemVo in travelDetailVo.items) {
         korean.addAll({travelItemVo.description: travelItemVo.description});
         english.addAll({
-          travelItemVo.description: travelItemVo.descriptionEnglish
+          travelItemVo.description: travelItemVo.descriptionEnglish,
         });
       }
     }
