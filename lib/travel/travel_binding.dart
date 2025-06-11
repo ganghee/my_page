@@ -12,7 +12,7 @@ class TravelBinding extends Bindings {
 class TravelDetailBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<TravelMainUIController>(() => TravelMainUIController());
+    Get.lazyPut<TravelMainUIController>(() => TravelMainUIController(),);
     Get.lazyPut<TravelDetailUIController>(() => TravelDetailUIController());
   }
 }
