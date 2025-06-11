@@ -23,7 +23,7 @@ final List<BookVo> myBooks = [
     publisher: '유노북스',
     coverImage: 'assets/images/book/schopenhauer.webp',
     description: '',
-    date: DateTime(2025, 6, 8),
+    date: DateTime(2025, 6, 7),
   ),
   BookVo(
     title: '황금종이 2',
